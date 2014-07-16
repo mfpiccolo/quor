@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <title>Quor</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="container master-container">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Quor</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <% if current_user.present? %>
+          <ul class="nav navbar-nav">
+            <li class="active"><%= link_to("Models", models_path) %></li>
+            <li><%= link_to("New Model", new_model_path) %></li>
+            <li><%= link_to("User Settings", edit_user_path(current_user)) %></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        <% end %>
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            <li><%= button_to("Logout", destroy_user_session_path, method: :delete) %></li>
+          <% else %>
+            <li class="active"><%= link_to("Sign In", new_user_session_path) %></li>
+            <li class="active"><%= link_to("Register", new_user_registration_path) %></li>
+          <% end %>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+    <ul class="breadcrumb">
+      <%= yield :breadcrumb %>
+    </ul>
+    <% if notice %>
+      <div class="alert alert-success fade in" data-alert="alert">
+        <a class="close" data-dismiss='alert' href="#">×</a>
+        <p><%= notice %></p>
+      </div>
+    <% end %>
+
+    <%= yield %>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="">Link</a></li>
+        <li class="muted">·</li>
+        <li><a href="">Link</a></li>
+      </ul>
+    </div>
+  </footer>
+  <%= javascript_include_tag "application" %>
+</body>
+</html>

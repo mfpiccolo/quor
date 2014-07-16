@@ -1,0 +1,8 @@
+<% content_for :breadcrumb do %>
+  <li><%= link_to "Home", root_path %> <span class="divider">/</span></li>
+  <li class="active">Edit User Settings</li>
+<% end %>
+
+<h1>Edit User Settings <small>Inline Form</small></h1>
+
+<%= render 'form' %>

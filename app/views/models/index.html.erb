@@ -1,0 +1,13 @@
+<table class="table">
+  <tr>
+  </tr>
+  <% @model_names.each do |m| %>
+    <% current_model = Model.where(otype: m) %>
+    <tr>
+      <td><%= link_to m, model_path(current_model.first) %></td>
+      <% current_model.model_data_keys.each do |k| %>
+        <td><%= k %></td>
+      <% end %>
+    <tr>
+  <% end %>
+</table>

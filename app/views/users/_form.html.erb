@@ -1,0 +1,22 @@
+<% content_for :tabbar_title do %>
+  Edit User Settings
+<% end %>
+
+<div class="form-panel clearfix">
+  <ul class="breadcrumbs">
+    <li><%= link_to "Models", models_path %></li>
+    <li class="current"><a href="#">Edit</a></li>
+  </ul>
+  <%= simple_form_for current_user do |f| %>
+    <div class="form-group">
+      <%= f.input :ltv_1, required: false %>
+    </div>
+    <div class="form-group">
+      <%= f.input :ltv_2, required: false %>
+    </div>
+    <div class="form-group">
+      <%= f.button :submit, class: "small button radius right" %>
+    </div>
+  <% end %>
+</div>
+
