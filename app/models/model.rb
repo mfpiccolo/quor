@@ -11,7 +11,8 @@ class Model < Ply
     results.values.flatten
   end
 
-  def to_param
-    otype
+  def row(index_hash)
+    index_hash.merge(data)
   end
+
 end

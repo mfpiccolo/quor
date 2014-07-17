@@ -3,7 +3,7 @@ class ModelsController < ApplicationController
 
   helper_method :sort_column, :sort_direction
   before_action :authenticate_user!
-  before_action :find_model, only: [:edit, :update, :destroy]
+  before_action :find_model, only: [:show, :edit, :update, :destroy]
 
   def new
     @model = current_user.models.build
@@ -25,7 +25,9 @@ class ModelsController < ApplicationController
   end
 
   def show
-    @models = current_user.models.where(otype: params[:otype]).order(sort_column + " " + sort_direction)
+    @models = current_user.models.where(otype: @model.otype).order(sort_column + " " + sort_direction)
+    @model_data_keys = @models.model_data_keys
+    @model_data_index = Hash[@model_data_keys.map.with_index.to_a]
   end
 
   def edit

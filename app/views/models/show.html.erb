@@ -3,7 +3,7 @@
   <table class="table">
     <tr>
       <th>ID</th>
-      <% @models.last.data.keys.each do |k| %>
+      <% @model_data_keys.each do |k| %>
         <th><%= k %></th>
       <% end %>
       <th></th>
@@ -11,8 +11,12 @@
     <% @models.each do |m| %>
       <tr>
         <td><%= m.id %></td>
-        <% m.data.each_pair do |k,v| %>
-          <td><%= best_in_place m, k.to_sym, :type => :input %></td>
+        <% m.row(@model_data_index).each_pair do |k,v| %>
+          <% if m.data.include?(k) %>
+            <td><%= best_in_place m, k.to_sym, :type => :input, :html_attrs => {:maxlength => 10, :style => "width:4.4em; height:1.45em" } %></td>
+          <% else %>
+            <td></td>
+          <% end %>
         <% end %>
       <tr>
     <% end %>
