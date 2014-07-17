@@ -25,8 +25,9 @@ class ModelsController < ApplicationController
   end
 
   def show
-    @models = current_user.models.where(otype: @model.otype).order(sort_column + " " + sort_direction)
-    @model_data_keys = @models.model_data_keys
+    @model_otype = @model.otype
+    @models = current_user.models.where(otype: @model_otype).order(sort_column + " " + sort_direction)
+    @model_data_keys = @models.model_data_keys(@model_otype)
     @model_data_index = Hash[@model_data_keys.map.with_index.to_a]
   end
 
@@ -51,6 +52,14 @@ class ModelsController < ApplicationController
   end
 
   def destroy
+  end
+
+  def import
+    CsvImporter.import(
+      user_id: current_user.id,
+      model_name: params[:model_name],
+      csv_file: params[:file]
+    )
   end
 
 

@@ -5,9 +5,17 @@
     <% current_model = Model.where(otype: m) %>
     <tr>
       <td><%= link_to m, model_path(current_model.first) %></td>
-      <% current_model.model_data_keys.each do |k| %>
+      <% current_model.model_data_keys(m).each do |k| %>
         <td><%= k %></td>
       <% end %>
     <tr>
   <% end %>
 </table>
+
+<h2>Import Models</h2>
+<%= form_tag import_models_path, multipart: true do %>
+  <%= label_tag :model_name %>
+  <%= text_field_tag :model_name %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import" %>
+<% end %>
