@@ -5,7 +5,7 @@
     <% current_model = Model.where(otype: m) %>
     <tr>
       <td><%= link_to m, model_path(current_model.first) %></td>
-      <% current_model.model_data_keys(m).each do |k| %>
+      <% current_model.data_keys(m).each do |k| %>
         <td><%= k %></td>
       <% end %>
     <tr>

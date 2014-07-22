@@ -16,6 +16,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
+//= require jquery.infinitescroll
 //= require_tree .
 
 $(document).ready(function() {

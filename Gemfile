@@ -16,13 +16,13 @@ gem 'simple_form', '~> 3.0.0'
 gem 'money-rails'
 gem 'bootstrap-sass'
 gem 'turbolinks'
+gem 'kaminari', '~> 0.16.1'
 
 gem 'devise', "~> 3.2.4"
 
 gem 'faraday'
 gem 'hashie'
 gem 'xml-simple'
-gem 'rubillow'
 
 gem "pliable",  "~> 0.2.1"
 

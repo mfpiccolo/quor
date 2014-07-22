@@ -26,9 +26,9 @@ class ModelsController < ApplicationController
 
   def show
     @model_otype = @model.otype
-    @models = current_user.models.where(otype: @model_otype).order(sort_column + " " + sort_direction)
-    @model_data_keys = @models.model_data_keys(@model_otype)
-    @model_data_index = Hash[@model_data_keys.map.with_index.to_a]
+    @models = current_user.models.where(otype: @model_otype).order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
+    @data_keys = @models.data_keys(@model_otype)
+    @model_data_index = Hash[@data_keys.map.with_index.to_a]
   end
 
   def edit
@@ -46,7 +46,7 @@ class ModelsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to(models_path, :notice => 'Model was successfully updated.') }
+      format.html { redirect_to(model_path(@model), :notice => 'Model was successfully updated.') }
       format.json { respond_with_bip(@model) }
     end
   end
@@ -60,13 +60,14 @@ class ModelsController < ApplicationController
       model_name: params[:model_name],
       csv_file: params[:file]
     )
+    redirect_to models_path
   end
 
 
   private
 
   def model_params
-    params.require(:model).permit(@model.data.keys)
+    params.require(:model).permit(Model.data_keys(@model.otype))
   end
 
   def find_model

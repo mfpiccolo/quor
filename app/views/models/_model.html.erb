@@ -1,0 +1,8 @@
+<% @models.each do |m| %>
+  <tr class="model">
+    <td><%= link_to m.id, edit_model_path(m) %></td>
+    <% m.row(@model_data_index).each_pair do |k,v| %>
+      <td><%= best_in_place m, k.to_sym, :type => :input, :html_attrs => {:maxlength => 10, :style => "width:4.4em; height:1.45em" } %></td>
+    <% end %>
+  <tr>
+<% end %>

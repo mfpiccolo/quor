@@ -13,7 +13,6 @@ class CsvImporter
       CSV.foreach(csv_file.path, :headers => true) do |row|
         Model.create!(user_id: user_id, otype: model_name, data: row.to_hash)
       end
-      redirect_to models_path
     end
 
     def self.import(user_id:, model_name:, csv_file:)
