@@ -30,6 +30,7 @@ class ModelsController < ApplicationController
     @models = current_user.models.where(otype: @model_otype).order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
     @data_keys = @models.data_keys(@model_otype)
     @model_data_index = Hash[@data_keys.map.with_index.to_a]
+    @filters = current_user.filters.where(model_type: @model_otype)
   end
 
   def edit
