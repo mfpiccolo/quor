@@ -26,6 +26,8 @@ gem 'xml-simple'
 
 gem "pliable",  "~> 0.2.1"
 
+gem "pg_search"
+
 gem "best_in_place", github: "bernat/best_in_place", branch: "rails-4"
 
 group :development do

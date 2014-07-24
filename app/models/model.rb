@@ -3,6 +3,11 @@ class Model < Ply
 
   after_initialize :set_blank_ply_attributes
 
+  include PgSearch
+  pg_search_scope :search_data,
+    against: :data,
+    using: [:tsearch]
+
   def self.model_names
     pluck(:otype).uniq
   end

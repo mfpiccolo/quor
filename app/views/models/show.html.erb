@@ -1,5 +1,12 @@
 <h2><%= @model_otype %></h2>
-<% unless @models.first.data.empty? %>
+
+<%= form_tag search_models_path, method: :get do %>
+  <%= hidden_field_tag 'id', @model.id %>
+  <%= text_field_tag :query, params[:query],
+    id: "location-quick-search", placeholder: "Search", class: "search-box" %>
+<% end %>
+
+<% unless @models.empty? || @models.first.data.empty? %>
   <table class="table" id="models">
     <thead>
       <tr>

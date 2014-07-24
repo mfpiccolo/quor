@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :models do
     collection { post :import }
+    collection { get :search }
   end
 
   resources :users, only: [:edit, :update]
