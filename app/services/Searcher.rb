@@ -14,10 +14,14 @@ class Searcher
   end
 
   def call
-    build_query_array
-    scope = @user.models.where(otype: type)
-    build_sql_string(query_array)
-    scope.where(sql_string)
+    if ["&&", "||", ":"].any? { |join| query_string.include? join }
+      build_query_array
+      scope = @user.models.where(otype: type)
+      build_sql_string(query_array)
+      scope.where(sql_string)
+    else
+      @user.models.where(otype: type).search_data(query_string)
+    end
   end
 
   private
@@ -27,6 +31,13 @@ class Searcher
       if queries.include?("(") && queries.include?(")")
         a = []
         queries.scan(/\(([^\)]+)\)/).flatten.first.split("&&").each do |q_string|
+          pair_array = q_string.split(":")
+          a << Hash[pair_array[0].strip, pair_array[1].strip]
+        end
+        a
+      elsif queries.include?("&&")
+        a = []
+        queries.split("&&").each do |q_string|
           pair_array = q_string.split(":")
           a << Hash[pair_array[0].strip, pair_array[1].strip]
         end

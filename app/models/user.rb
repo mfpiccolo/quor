@@ -6,5 +6,6 @@ class User < ActiveRecord::Base
 
   has_many :models
   has_many :activities
+  has_many :filters
 end
 

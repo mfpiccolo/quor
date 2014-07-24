@@ -26,6 +26,7 @@ class ModelsController < ApplicationController
 
   def show
     @model_otype = @model.otype
+    @count = current_user.models.where(otype: @model_otype).count
     @models = current_user.models.where(otype: @model_otype).order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
     @data_keys = @models.data_keys(@model_otype)
     @model_data_index = Hash[@data_keys.map.with_index.to_a]
@@ -65,8 +66,21 @@ class ModelsController < ApplicationController
 
   def search
     @model_otype = @model.otype
-    model_search_scope = Searcher.call(current_user, @model_otype, params[:query])
-    @models = model_search_scope.order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
+
+    if params[:commit] == "Save Filter"
+      Filter.create(user_id: current_user.id, model_type: @model.otype, query: params[:query], name: params[:name])
+    end
+
+    if ["&&", "||", ":"].any? { |join| params[:query].include? join }
+      model_search_scope = Searcher.call(current_user, @model_otype, params[:query])
+      @count = model_search_scope.count
+      @models = model_search_scope.order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
+    else
+      @count = current_user.models.where(otype: @model.otype).search_data(params[:query]).count(:all)
+      @models = current_user.models.where(otype: @model.otype).search_data(params[:query]).order(:updated_at).page params[:page]
+    end
+
+    @filters = current_user.filters.where(model_type: @model_otype)
     @data_keys = @models.data_keys(@model_otype)
     @model_data_index = Hash[@data_keys.map.with_index.to_a]
 

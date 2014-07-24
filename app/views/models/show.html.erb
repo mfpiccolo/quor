@@ -3,10 +3,24 @@
 <%= form_tag search_models_path, method: :get do %>
   <%= hidden_field_tag 'id', @model.id %>
   <%= text_field_tag :query, params[:query],
-    id: "location-quick-search", placeholder: "Search", class: "search-box" %>
+    id: "search", placeholder: "Search", class: "search-box" %>
+  <%= submit_tag "Search" %>
+  <%= text_field_tag :name, nil, id: "filter-name",
+    placeholder: "Filter Name"%>
+  <%= submit_tag "Save Filter" %>
 <% end %>
 
-<% unless @models.empty? || @models.first.data.empty? %>
+<div>Count: <%= @count %></div>
+
+<div>
+  <% if @filters.present? %>
+    <% @filters.each do |f| %>
+      <div><%= link_to f.name, search_models_path(id: @model.id, query: f.query) %></div>
+    <% end %>
+  <% end %>
+</div>
+
+<% if @models.present? %>
   <table class="table" id="models">
     <thead>
       <tr>
