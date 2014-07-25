@@ -57,7 +57,11 @@ class Searcher
     @final_sql_array = sql_array.map(&:strip).map do |string|
       if string.include?(":")
         q = string.split(":")
-        "(((to_tsvector('simple', coalesce(data ->> '#{q[0].strip}', ''))) @@ (to_tsquery('simple', ''' ' || '#{q[1].strip}' || ' '''))))"
+        "(similarity((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > .5 OR " +
+        "(data->>'#{q[0].strip}')::text ILIKE '%#{q[1].strip}%')"
+        # "difference((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > 3"
+        # "levenshtein((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > 22"
+        # "(((to_tsvector('simple', coalesce(data ->> '#{q[0].strip}', ''))) @@ (to_tsquery('simple', ''' ' || '#{q[1].strip}' || ' '''))))"
       elsif [">=", "<=", ">", "<"].any? { |join| string.include? join }
         q = string.gsub(/\s+/m, ' ').strip.split(" ")
         "(data->>'#{q[0].strip}')::int #{q[1]} #{q[2]}"

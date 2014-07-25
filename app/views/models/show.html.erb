@@ -1,6 +1,6 @@
 
 <div class="no-padding">
-  <div class="large-2 medium-12 small-12 columns">
+  <div class="large-10 medium-12 small-12 columns">
     <h2><%= @model_otype %></h2>
 
     <%= form_tag search_models_path, method: :get do %>
@@ -15,13 +15,13 @@
 
     <div>Count: <%= @count %></div>
 
-    <div>
+    <ul class="inline-list" id="filter-list">
       <% if @filters.present? %>
         <% @filters.each do |f| %>
-          <div><%= link_to f.name, search_models_path(id: @model.id, query: f.query) %></div>
+          <li><%= link_to f.name, search_models_path(id: @model.id, query: f.query), class: "button tiny" %></li>
         <% end %>
       <% end %>
-    </div>
+    </ul>
 
     <% if @models.present? %>
       <table class="table" id="models">

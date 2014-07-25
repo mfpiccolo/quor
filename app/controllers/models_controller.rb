@@ -72,7 +72,7 @@ class ModelsController < ApplicationController
       Filter.create(user_id: current_user.id, model_type: @model.otype, query: params[:query], name: params[:name])
     end
 
-    if Searcher::Operators.any? { |join| params[:query].include? join }
+    if (Searcher::Operators << ":").any? { |join| params[:query].include? join }
       model_search_scope = Searcher.call(current_user, @model_otype, params[:query])
       @count = model_search_scope.count
       @models = model_search_scope.order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
