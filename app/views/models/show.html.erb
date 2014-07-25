@@ -1,41 +1,46 @@
-<h2><%= @model_otype %></h2>
 
-<%= form_tag search_models_path, method: :get do %>
-  <%= hidden_field_tag 'id', @model.id %>
-  <%= text_field_tag :query, params[:query],
-    id: "search", placeholder: "Search", class: "search-box" %>
-  <%= submit_tag "Search" %>
-  <%= text_field_tag :name, nil, id: "filter-name",
-    placeholder: "Filter Name"%>
-  <%= submit_tag "Save Filter" %>
-<% end %>
+<div class="no-padding">
+  <div class="large-2 medium-12 small-12 columns">
+    <h2><%= @model_otype %></h2>
 
-<div>Count: <%= @count %></div>
-
-<div>
-  <% if @filters.present? %>
-    <% @filters.each do |f| %>
-      <div><%= link_to f.name, search_models_path(id: @model.id, query: f.query) %></div>
+    <%= form_tag search_models_path, method: :get do %>
+      <%= hidden_field_tag 'id', @model.id %>
+      <%= text_field_tag :query, params[:query],
+        id: "search", placeholder: "Search", class: "search-box" %>
+      <%= submit_tag "Search" %>
+      <%= text_field_tag :name, nil, id: "filter-name",
+        placeholder: "Filter Name"%>
+      <%= submit_tag "Save Filter" %>
     <% end %>
-  <% end %>
-</div>
 
-<% if @models.present? %>
-  <table class="table" id="models">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <% @data_keys.each do |k| %>
-          <th><%= k %></th>
+    <div>Count: <%= @count %></div>
+
+    <div>
+      <% if @filters.present? %>
+        <% @filters.each do |f| %>
+          <div><%= link_to f.name, search_models_path(id: @model.id, query: f.query) %></div>
         <% end %>
-        <th></th>
-      </tr>
-    </thead>
+      <% end %>
+    </div>
 
-    <tbody class="page">
-      <%= render "model" %>
-    </tbody>
-  </table>
+    <% if @models.present? %>
+      <table class="table" id="models">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <% @data_keys.each do |k| %>
+              <th><%= k %></th>
+            <% end %>
+            <th></th>
+          </tr>
+        </thead>
 
-  <%= paginate @models %>
-<% end %>
+        <tbody class="page">
+          <%= render "model" %>
+        </tbody>
+      </table>
+
+      <%= paginate @models %>
+    <% end %>
+  </div>
+</div>

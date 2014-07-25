@@ -1,9 +1,10 @@
 /*
- *= require bootstrap
  *= require jquery-ui
+ *= require foundation
+ *= require_tree .
 */
 
-.alert p.error_notification {
+/*.alert p.error_notification {
   margin-bottom: 0;
 }
 
@@ -95,7 +96,7 @@ article .content {
   .desc {
     background-image: asset-url("down_arrow.png");
   }
-}
+}*/
 
 .indent {
   margin-left: 20px;

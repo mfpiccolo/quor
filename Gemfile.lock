@@ -43,8 +43,6 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.1.1.1)
-      sass (~> 3.2)
     builder (3.2.2)
     byebug (2.7.0)
       columnize (~> 0.3)
@@ -72,6 +70,9 @@ GEM
     execjs (2.2.0)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
+    foundation-rails (5.3.1.0)
+      railties (>= 3.1.0)
+      sass (>= 3.2.0)
     hashie (2.1.1)
     hike (1.2.3)
     i18n (0.6.11)
@@ -142,7 +143,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.3.2)
-    sass (3.3.8)
+    sass (3.3.10)
     simple_form (3.0.2)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -185,9 +186,9 @@ DEPENDENCIES
   best_in_place!
   better_errors
   binding_of_caller
-  bootstrap-sass
   devise (~> 3.2.4)
   faraday
+  foundation-rails (~> 5.3.1.0)
   hashie
   jquery-rails (~> 3.1.1)
   jquery-ui-rails (~> 5.0.0)

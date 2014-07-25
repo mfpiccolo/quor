@@ -14,8 +14,8 @@
 //= require jquery-ui
 //= require best_in_place
 //= require jquery_ujs
+//= require foundation
 //= require turbolinks
-//= require bootstrap
 //= require jquery.infinitescroll
 //= require_tree .
 
@@ -23,3 +23,5 @@ $(document).ready(function() {
   /* Activating Best In Place */
   jQuery(".best_in_place").best_in_place();
 });
+
+jQuery(function(){ $(document).foundation(); });
