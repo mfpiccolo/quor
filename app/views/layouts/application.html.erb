@@ -55,7 +55,9 @@
                     </div>
                 </div>
             </section>
-            <a class="left-off-canvas-toggle" href="#" >Toggle</a>
+            <%= link_to "#panel1c", class: "left-off-canvas-toggle" do %>
+                <%= fa_icon("forms", text: "", class: "fa-bars fa-2x") %>
+            <% end %>
             <div class="off-canvas-wrap" data-offcanvas>
                 <div class="inner-wrap">
                     <aside class="left-off-canvas-menu">
