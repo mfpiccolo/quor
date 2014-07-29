@@ -34,7 +34,6 @@ class Searcher
   def build_sql_array(string, parens: false)
     ordered_ops_array = string.to_enum(:scan, /(\(.+\)|\|{2}|&&|[^|&]*)/)
       .map { Regexp.last_match }.map(&:to_s).delete_if(&:empty?)
-
     if parens
       @count = ordered_ops_array.size
     end

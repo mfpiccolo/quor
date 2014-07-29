@@ -7,14 +7,15 @@
       <%= hidden_field_tag 'id', @model.id %>
       <%= text_field_tag :query, params[:query],
         id: "search", placeholder: "Search", class: "search-box" %>
-      <%= submit_tag "Search" %>
+      <%= submit_tag "Search", class: "button" %>
       <%= text_field_tag :name, nil, id: "filter-name",
         placeholder: "Filter Name"%>
-      <%= submit_tag "Save Filter" %>
+      <%= submit_tag "Save Filter", class: "button" %>
     <% end %>
 
     <div>Count: <%= @count %></div>
 
+    <h3>Filters</h3>
     <ul class="inline-list" id="filter-list">
       <% if @filters.present? %>
         <% @filters.each do |f| %>
@@ -24,22 +25,25 @@
     </ul>
 
     <% if @models.present? %>
-      <table class="table" id="models">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <% @data_keys.each do |k| %>
-              <th><%= k %></th>
-            <% end %>
-            <th></th>
-          </tr>
-        </thead>
+      <div id="table-wrapper">
+        <div id="table-scroll">
+          <table class="table" id="models">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <% @data_keys.each do |k| %>
+                  <th><%= k %></th>
+                <% end %>
+                <th></th>
+              </tr>
+            </thead>
 
-        <tbody class="page">
-          <%= render "model" %>
-        </tbody>
-      </table>
-
+            <tbody class="page">
+              <%= render "model" %>
+            </tbody>
+          </table>
+        </div>
+      </div>
       <%= paginate @models %>
     <% end %>
   </div>

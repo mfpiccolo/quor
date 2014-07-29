@@ -13,6 +13,8 @@ gem "jquery-rails",                 "~> 3.1.1"
 gem "jquery-ui-rails",              "~> 5.0.0"
 
 gem 'foundation-rails', '~> 5.3.1.0'
+gem "font-awesome-rails",     "~> 4.1.0.0"
+
 
 gem 'simple_form', '~> 3.0.0'
 gem 'money-rails'

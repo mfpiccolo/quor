@@ -19,9 +19,13 @@
 //= require jquery.infinitescroll
 //= require_tree .
 
-$(document).ready(function() {
-  /* Activating Best In Place */
+ready = function() {
   jQuery(".best_in_place").best_in_place();
-});
+  jQuery('input[type=file]').customFile();
+  jQuery(function(){ $(document).foundation(); });
+};
 
-jQuery(function(){ $(document).foundation(); });
+$(document).ready(ready);
+
+$(document).on('page:load', ready);
+

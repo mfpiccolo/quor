@@ -14,8 +14,7 @@
                 <div class="row">
                     <div class="large-2 medium-4 small-12 columns top-part-no-padding">
                         <div class="logo-bg">
-                            <img src="img/logo.png">
-                            <i class="fi-list toggles" toggle="hide"></i>
+                            <%= image_tag("intrinsic.png", class: "logo") %>
                         </div>
                     </div>
                     <div class="large-10 medium-8 small-12 columns top-menu">
@@ -31,21 +30,23 @@
                                 <div class="row">
                                     <div class="medium-3 small-3 columns">
                                         <div class="notification">
-                                            <i class="fi-mail"></i>
+                                            <%= fa_icon("globe", text: "", class: "fa-globe") %>
                                             <span class="mail">4</span>
                                         </div>
                                     </div>
                                     <div class="medium-3 small-3 columns">
                                         <div class="notification">
-                                            <i class="fi-megaphone"></i>
+                                            <%= fa_icon("mail", text: "", class: "fa-inbox") %>
                                             <span class="megaphone">5</span>
                                         </div>
                                     </div>
                                     <div class="medium-3 small-3 columns">
-                                        <img src="img/32.jpg" alt="picture" class="top-bar-picture">
+                                        <%= image_tag("profile_img.png", class: "top-bar-picture") %>
                                     </div>
                                     <div class="medium-3 small-3 columns">
-                                        <i class="fi-power power-off"></i>
+                                        <%= link_to destroy_user_session_path, method: :delete do %>
+                                            <%= fa_icon("mail", text: "", class: " fa-sign-out fa-2x power-off") %>
+                                        <% end %>
                                     </div>
                                 </div>
                             </div>
@@ -54,63 +55,68 @@
                     </div>
                 </div>
             </section>
-            <div class="row">
-                <div class="no-padding">
-                    <div class="large-2 medium-12 small-12 columns">
-                        <ul class="side-nav">
-                            <li>
-                                <%= link_to root_path do %>
-                                  <i class="flaticon-businessman22"></i>Dashboard
-                                <% end %>
-                            <li>
-                              <%= link_to models_path do %>
-                                <i class="flaticon-dashboard1"></i>Models
-                              <% end %>
-                            </li>
-                            <li><a href="inbox.html"><span class="flaticon-mailbox10"></span>Inbox</a></li>
-                            <li><a href="invoice.html"><i class="flaticon-invoice1"></i>Invoice</a></li>
-                            <li>
-                                <ul>
-                                    <li>
-                                        <dl class="accordion" data-accordion="myAccordionGroup">
-                                            <dd>
-                                                <a href="#panel1c"><i class="flaticon-forms"></i>Form</a>
-                                                <div id="panel1c" class="content">
-                                                    <ul>
-                                                        <li>
-                                                            <a href="general.html">General</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="wizard.html">Wizard</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="editor.html">Wysiwug Editor</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="login.html"><i class="flaticon-incoming4"></i>Login</a></li>
-                            <li><a href="register.html"><i class="flaticon-add58"></i>Register</a></li>
-                            <li><a href="pricing.html"><i class="flaticon-businessman63"></i>Pricing</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="large-10 medium-12 small-12 columns light-grey-bg-pattern">
-                    <br>
-                    <div class="row">
-                        <div class="large-10 columns">
-                            <div class="page-name">
-                                <div class="clearfix"></div>
+            <a class="left-off-canvas-toggle" href="#" >Toggle</a>
+            <div class="off-canvas-wrap" data-offcanvas>
+                <div class="inner-wrap">
+                    <aside class="left-off-canvas-menu">
+                        <div class="row">
+                            <div class="no-padding">
+                                <div class="large-12 medium-12 small-12 columns">
+                                    <ul class="side-nav">
+                                        <li>
+                                            <%= link_to root_path do %>
+                                              <%= fa_icon("sign-out", text: "Dashboard", class: "fa-dashboard fa-2x") %>
+                                            <% end %>
+                                        </li>
+                                        <li>
+                                          <%= link_to models_path do %>
+                                            <%= fa_icon("models", text: "Models", class: "fa-cubes fa-2x") %>
+                                          <% end %>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <dl class="accordion" data-accordion="myAccordionGroup">
+                                                        <dd>
+                                                            <%= link_to "#panel1c" do %>
+                                                                <%= fa_icon("forms", text: "Forms", class: "fa-file-text fa-2x") %>
+                                                            <% end %>
+                                                            <div id="panel1c" class="content">
+                                                                <ul>
+                                                                    <li>
+                                                                        <a href="general.html">General</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="wizard.html">Wizard</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="editor.html">Wysiwug Editor</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                    </aside>
+                    <div class="large-12 medium-12 small-12 columns light-grey-bg-pattern">
+                        <br>
+                        <div class="row">
+                            <div class="large-10 columns">
+                                <div class="page-name">
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <section id="dashboard">
+                          <%= yield %>
+                        </section>
                     </div>
-                    <section id="dashboard">
-                      <%= yield %>
-                    </section>
                 </div>
             </div>
         </div>
