@@ -23,11 +23,11 @@
     <table class="table">
       <tr>
       </tr>
-      <% @model_names.each do |m| %>
-        <% current_model = current_user.models.where(otype: m) %>
+      <% @model_names.each do |n| %>
+        <% current_model = current_user.models.where(otype: n) %>
         <tr>
-          <td><%= link_to m, models_path(otype: m) %></td>
-          <% current_model.data_keys(m).each do |k| %>
+          <td><%= link_to n, models_path(otype: n) %></td>
+          <% current_model.data_keys(otype: n).each do |k| %>
             <td><%= k %></td>
           <% end %>
         </tr>

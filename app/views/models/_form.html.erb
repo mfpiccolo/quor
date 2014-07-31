@@ -9,7 +9,7 @@
   </ul>
   <%= simple_form_for @model, role: "form" do |f| %>
     <div class="form-group">
-      <% Model.data_keys(@model.otype).each do |k| %>
+      <% Model.data_keys(otype: @model.otype).each do |k| %>
         <%= f.input k.to_sym %>
       <% end %>
     </div>

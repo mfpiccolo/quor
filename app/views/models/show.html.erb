@@ -4,10 +4,42 @@
 
     <div><%= link_to "Edit", edit_model_path(@model) %></div>
 
-    <table>
-      <% @model.data.keys.each do |k| %>
-        <tr><td><%= k %></td><td><%= @model.send(k.to_sym) %></td></tr>
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table class="table" id="models">
+          <% @model.data.keys.each do |k| %>
+            <tr><td><%= k %></td><td><%= @model.send(k.to_sym) %></td></tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+
+    <% if @model.parents_present? %>
+      <% @model.parent_scopes.each do |s| %>
+        <% current_model_scope = @model.send(s) %>
+        <% current_model_scope.each do |m| %>
+          <h3>Belongs to <%= m.otype.pluralize %></h3>
+          <div id="table-wrapper">
+            <div id="table-scroll">
+              <table class="table" id="models">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <% m.model_data_keys.each do |k| %>
+                      <th><%= k %></th>
+                    <% end %>
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody class="page">
+                  <%= render "model", models: current_model_scope %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% end %>
       <% end %>
-    </table>
+    <% end %>
   </div>
 </div>

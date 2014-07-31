@@ -28,13 +28,14 @@ class ModelsController < ApplicationController
     @model_otype = params[:otype]
     @count = current_user.models.where(otype: @model_otype).count
     @models = current_user.models.where(otype: @model_otype).order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
-    @data_keys = @models.data_keys(@model_otype)
+    @data_keys = @models.data_keys(otype: @model_otype)
     @model_data_index = Hash[@data_keys.map.with_index.to_a]
     @filters = current_user.filters.where(model_type: @model_otype)
     @current_model_names = current_user.models.model_names
   end
 
   def show
+    @current_model_names = current_user.models.model_names
   end
 
   def edit
@@ -86,7 +87,7 @@ class ModelsController < ApplicationController
     end
 
     @filters = current_user.filters.where(model_type: @model_otype)
-    @data_keys = @models.data_keys(@model_otype)
+    @data_keys = @models.data_keys(otype: @model_otype)
     @model_data_index = Hash[@data_keys.map.with_index.to_a]
 
     @term = params[:term]
@@ -101,7 +102,7 @@ class ModelsController < ApplicationController
   private
 
   def model_params
-    params.require(:model).permit(current_user.models.data_keys(@model.otype))
+    params.require(:model).permit(current_user.models.data_keys(otype: @model.otype))
   end
 
   def find_model

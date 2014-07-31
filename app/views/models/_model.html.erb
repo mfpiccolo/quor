@@ -1,3 +1,7 @@
+<% @models = @models || models %>
+<% @model_otype = @model_otype || @models.first.otype %>
+<% @data_keys = @data_keys || @models.data_keys(otype: @model_otype) %>
+<% @model_data_index = @model_data_index || Hash[@data_keys.map.with_index.to_a] %>
 <% @models.each do |m| %>
   <tr class="model">
     <td><%= link_to m.id, model_path(m) %></td>
