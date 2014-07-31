@@ -1,8 +1,12 @@
 <% @models.each do |m| %>
   <tr class="model">
     <td><%= link_to m.id, edit_model_path(m) %></td>
-    <% m.row(@model_data_index).each_pair do |k,v| %>
-      <td><%= best_in_place m, k.to_sym, :type => :input, :html_attrs => {:maxlength => 10, :style => "width:4.4em; height:1.45em" } %></td>
+    <% m.row(@model_data_index).each_pair do |k, i| %>
+      <% if relation_data?(k) %>
+        <td><%= link_to m.send(k.to_sym), relation_path(m, k) %></td>
+      <% else %>
+        <td><%= best_in_place m, k.to_sym, :type => :input, :html_attrs => {:maxlength => 10, :style => "width:4.4em; height:1.45em" } %></td>
+      <% end %>
     <% end %>
   <tr>
 <% end %>

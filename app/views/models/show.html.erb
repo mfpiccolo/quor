@@ -1,75 +1,11 @@
 <div class="row">
   <div class="large-12 medium-12 small-12 columns">
-    <h2><%= @model_otype %></h2>
+    <h2><%= @model.otype + " #" + @model.external_id.to_s %></h2>
 
-    <%= form_tag search_models_path, method: :get do %>
-      <%= hidden_field_tag 'id', @model.id %>
-      <div class="row">
-        <div class="small-12 large-6 columns">
-          <div class="row collapse">
-            <div class="small-10 columns">
-              <%= text_field_tag :query, params[:query],
-                id: "search", placeholder: "Search", class: "search-box" %>
-            </div>
-            <div class="small-2 columns">
-              <%= submit_tag "Search", class: "button postfix" %>
-            </div>
-          </div>
-        </div>
-        <div class="small-12 large-6 columns">
-          <div class="row collapse">
-            <div class="small-10 columns">
-              <%= text_field_tag :name, nil, id: "filter-name",
-                placeholder: "Filter Name"%>
-            </div>
-            <div class="small-2 columns">
-              <%= submit_tag "Save Filter", class: "button postfix" %>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
-    <div>Count: <%= @count %></div>
-
-    <h3>Filters</h3>
-    <ul class="inline-list" id="filter-list">
-      <% if @filters.present? %>
-        <% @filters.each do |f| %>
-          <li><%= link_to f.name, search_models_path(id: @model.id, query: f.query), class: "button tiny" %></li>
-        <% end %>
+    <table>
+      <% @model.data.keys.each do |k| %>
+        <tr><td><%= k %></td><td><%= @model.send(k.to_sym) %></td></tr>
       <% end %>
-    </ul>
-
-    <% if @models.present? %>
-      <div class="row collapse">
-        <div class="small-3 large-2 columns">
-          <span class="prefix">Count</span>
-        </div>
-        <div class="small-9 large-10 columns">
-          <input type="text" placeholder="Enter your URL...">
-        </div>
-      </div>
-      <div id="table-wrapper">
-        <div id="table-scroll">
-          <table class="table" id="models">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <% @data_keys.each do |k| %>
-                  <th><%= k %></th>
-                <% end %>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody class="page">
-              <%= render "model" %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <%= paginate @models %>
-    <% end %>
+    </table>
   </div>
 </div>

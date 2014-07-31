@@ -1,5 +1,7 @@
-class Model < Ply
-  has_many :users
+class Model < Pliable::Ply
+  belongs_to :user
+
+  after_initialize :set_ply_attributes
 
   include PgSearch
   pg_search_scope :search_data,
@@ -16,12 +18,27 @@ class Model < Ply
     results.values.flatten
   end
 
+  def to_param
+    id.to_s
+  end
+
   def row(index_hash)
     index_hash.merge(data)
   end
 
 
   private
+
+  def set_ply_attributes
+    data.merge!(external_id: data["id"]).delete("id") if data.keys.any? { |k| k == "id" }
+
+    if data.present?
+      data.each do |key,value|
+        define_singleton_method(key.to_s) { self.data[key] }
+        define_singleton_method(key.to_s + "=") {|a| self.data[key] = a}
+      end
+    end
+  end
 
   def method_missing(name, *)
     set_blank_ply_attributes
