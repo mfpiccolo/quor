@@ -20,7 +20,6 @@
 //= require_tree .
 
 ready = function() {
-  jQuery(".best_in_place").best_in_place();
   jQuery('input[type=file]').customFile();
   jQuery(function(){ $(document).foundation(); });
 };

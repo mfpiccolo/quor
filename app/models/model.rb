@@ -1,8 +1,6 @@
 class Model < Ply
   has_many :users
 
-  after_initialize :set_blank_ply_attributes
-
   include PgSearch
   pg_search_scope :search_data,
     against: :data,
@@ -25,11 +23,21 @@ class Model < Ply
 
   private
 
+  def method_missing(name, *)
+    set_blank_ply_attributes
+    if self.respond_to?(name)
+      self.send(name)
+    elsif children.pluck("DISTINCT child_type").present? || parents.pluck("DISTINCT child_type").present?
+      define_ply_scopes
+      self.send(name)
+    else
+      super
+    end
+  end
+
   def set_blank_ply_attributes
     Model.data_keys(otype).each do |k|
-      begin
-        self.send(k.to_sym)
-      rescue NoMethodError
+      unless self.respond_to?(k.to_sym)
         instance_variable_set(('@' + k.to_s).to_sym, "")
         define_singleton_method(k) { instance_variable_get(('@' + k.to_s).to_sym) }
       end

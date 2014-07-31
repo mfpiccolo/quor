@@ -27,7 +27,7 @@ gem 'faraday'
 gem 'hashie'
 gem 'xml-simple'
 
-gem "pliable",  "~> 0.2.1"
+gem "pliable",  github: "mfpiccolo/pliable" #"~> 0.2.1"
 
 gem "pg_search"
 

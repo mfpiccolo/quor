@@ -1,16 +1,33 @@
-
-<div class="no-padding">
-  <div class="large-10 medium-12 small-12 columns">
+<div class="row">
+  <div class="large-12 medium-12 small-12 columns">
     <h2><%= @model_otype %></h2>
 
     <%= form_tag search_models_path, method: :get do %>
       <%= hidden_field_tag 'id', @model.id %>
-      <%= text_field_tag :query, params[:query],
-        id: "search", placeholder: "Search", class: "search-box" %>
-      <%= submit_tag "Search", class: "button" %>
-      <%= text_field_tag :name, nil, id: "filter-name",
-        placeholder: "Filter Name"%>
-      <%= submit_tag "Save Filter", class: "button" %>
+      <div class="row">
+        <div class="small-12 large-6 columns">
+          <div class="row collapse">
+            <div class="small-10 columns">
+              <%= text_field_tag :query, params[:query],
+                id: "search", placeholder: "Search", class: "search-box" %>
+            </div>
+            <div class="small-2 columns">
+              <%= submit_tag "Search", class: "button postfix" %>
+            </div>
+          </div>
+        </div>
+        <div class="small-12 large-6 columns">
+          <div class="row collapse">
+            <div class="small-10 columns">
+              <%= text_field_tag :name, nil, id: "filter-name",
+                placeholder: "Filter Name"%>
+            </div>
+            <div class="small-2 columns">
+              <%= submit_tag "Save Filter", class: "button postfix" %>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
 
     <div>Count: <%= @count %></div>
@@ -25,6 +42,14 @@
     </ul>
 
     <% if @models.present? %>
+      <div class="row collapse">
+        <div class="small-3 large-2 columns">
+          <span class="prefix">Count</span>
+        </div>
+        <div class="small-9 large-10 columns">
+          <input type="text" placeholder="Enter your URL...">
+        </div>
+      </div>
       <div id="table-wrapper">
         <div id="table-scroll">
           <table class="table" id="models">
