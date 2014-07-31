@@ -41,5 +41,33 @@
         <% end %>
       <% end %>
     <% end %>
+
+
+    <% if child_scopes = @model.child_scopes %>
+      <% child_scopes.each do |s| %>
+        <% current_child_scope = @model.send(s) %>
+        <% current_child_model = current_child_scope.first %>
+        <div id="table-wrapper">
+          <div id="table-scroll">
+            <table class="table" id="models">
+              <h3>Has Many <%= current_child_model.otype.pluralize %></h3>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <% current_child_model.model_data_keys.each do |k| %>
+                    <th><%= k %></th>
+                  <% end %>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="page">
+                <%= render "model", models: current_child_scope %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
   </div>
 </div>

@@ -52,6 +52,10 @@ class Model < Pliable::Ply
     results = ActiveRecord::Base.connection.execute(query).values.flatten
   end
 
+  def child_scopes
+    child_models.map { |m| ActiveSupport::Inflector.pluralize(m).downcase.to_sym }
+  end
+
   def model_data_keys
     Model.data_keys(otype: otype)
   end
