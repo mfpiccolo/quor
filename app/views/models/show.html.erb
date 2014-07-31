@@ -2,6 +2,8 @@
   <div class="large-12 medium-12 small-12 columns">
     <h2><%= @model.otype + " #" + @model.external_id.to_s %></h2>
 
+    <div><%= link_to "Edit", edit_model_path(@model) %></div>
+
     <table>
       <% @model.data.keys.each do |k| %>
         <tr><td><%= k %></td><td><%= @model.send(k.to_sym) %></td></tr>

@@ -73,7 +73,7 @@ class ModelsController < ApplicationController
     @model_otype = params[:otype]
 
     if params[:commit] == "Save Filter"
-      Filter.create(user_id: current_user.id, model_type: @model.otype, query: params[:query], name: params[:name])
+      Filter.create(user_id: current_user.id, model_type: @model_otype, query: params[:query], name: params[:name])
     end
 
     if (Searcher::Operators << ":").any? { |join| params[:query].include? join }
@@ -81,8 +81,8 @@ class ModelsController < ApplicationController
       @count = model_search_scope.count
       @models = model_search_scope.order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
     else
-      @count = current_user.models.where(otype: @model.otype).search_data(params[:query]).count(:all)
-      @models = current_user.models.where(otype: @model.otype).search_data(params[:query]).order(:updated_at).page params[:page]
+      @count = current_user.models.where(otype: @model_otype).search_data(params[:query]).count(:all)
+      @models = current_user.models.where(otype: @model_otype).search_data(params[:query]).order(:updated_at).page params[:page]
     end
 
     @filters = current_user.filters.where(model_type: @model_otype)
@@ -101,7 +101,7 @@ class ModelsController < ApplicationController
   private
 
   def model_params
-    params.require(:model).permit(Model.data_keys(@model.otype))
+    params.require(:model).permit(current_user.models.data_keys(@model.otype))
   end
 
   def find_model
@@ -109,7 +109,7 @@ class ModelsController < ApplicationController
   end
 
   def sort_column
-    Model.column_names.include?(params[:sort]) ? params[:sort] : "oid"
+    current_user.models.column_names.include?(params[:sort]) ? params[:sort] : "oid"
   end
 
   def sort_direction

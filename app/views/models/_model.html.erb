@@ -1,6 +1,6 @@
 <% @models.each do |m| %>
   <tr class="model">
-    <td><%= link_to m.id, edit_model_path(m) %></td>
+    <td><%= link_to m.id, model_path(m) %></td>
     <% m.row(@model_data_index).each_pair do |k, i| %>
       <% if relation_data?(k) %>
         <td><%= link_to m.send(k.to_sym), relation_path(m, k) %></td>
