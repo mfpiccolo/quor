@@ -72,6 +72,7 @@ class ModelsController < ApplicationController
 
   def search
     @model_otype = params[:otype]
+    @current_model_names = current_user.models.model_names
 
     if params[:commit] == "Save Filter"
       Filter.create(user_id: current_user.id, model_type: @model_otype, query: params[:query], name: params[:name])
