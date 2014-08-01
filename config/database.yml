@@ -1,7 +1,7 @@
 development: &dev
   adapter: postgresql
   encoding: unicode
-  database: quor_test
+  database: quor_development
   pool: 5
   username: <%= ENV["USER"] %>
   password:

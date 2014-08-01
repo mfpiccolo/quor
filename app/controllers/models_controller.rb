@@ -67,7 +67,7 @@ class ModelsController < ApplicationController
       model_name: params[:model_name],
       csv_file: params[:file]
     )
-    redirect_to models_path
+    redirect_to model_types_models_path
   end
 
   def search

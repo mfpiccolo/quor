@@ -44,7 +44,9 @@ class Model < Pliable::Ply
   end
 
   def child_scope
-    Model.where(user_id: user_id).where("(data->>'#{otype.downcase}_id')::int = #{external_id}")
+    if respond_to?(:external_id)
+      Model.where(user_id: user_id).where("(data->>'#{otype.downcase}_id')::int = #{external_id}")
+    end
   end
 
   def child_models
@@ -53,7 +55,9 @@ class Model < Pliable::Ply
   end
 
   def child_scopes
-    child_models.map { |m| ActiveSupport::Inflector.pluralize(m).downcase.to_sym }
+    if respond_to?(:external_id)
+      child_models.map { |m| ActiveSupport::Inflector.pluralize(m).downcase.to_sym }
+    end
   end
 
   def model_data_keys
@@ -65,7 +69,6 @@ class Model < Pliable::Ply
 
   def set_ply_attributes
     data.merge!(external_id: data["id"]).delete("id") if data.keys.any? { |k| k == "id" }
-
     if data.present?
       data.each do |key,value|
         define_singleton_method(key.to_s) { self.data[key] }
