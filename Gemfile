@@ -38,7 +38,24 @@ group :development do
   gem 'binding_of_caller', :platforms=>[:mri_21]
   gem 'quiet_assets'
   gem 'rails_layout'
-  gem 'pry-byebug'
+end
+
+group :test do
+  # thincloud-test
+  gem "cane", "~> 2.6"
+  gem "guard-minitest", "~> 2.2.0"
+  gem "simplecov", "~> 0.8"
+  gem "terminal-notifier-guard", "~> 1.5"
+  gem "mocha", "~> 0.14", require: false
+
+  # thincloud-test-rails
+  gem "minitest-rails", "~> 2.0.0.beta1"
+  gem "database_cleaner", "1.2"
+  gem "factory_girl_rails", "~> 4.2.1"
+end
+
+group :development, :test do
+  gem "pry-byebug"
 end
 
 group :production do
