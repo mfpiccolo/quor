@@ -15,6 +15,14 @@ GIT
       pg (>= 0.17)
       rails (>= 4.0)
 
+PATH
+  remote: ../../mfpiccolo/self_systeem
+  specs:
+    self_systeem (0.1.0)
+      database_cleaner (~> 1.2)
+      minitest (>= 4.5, <= 5.3.3)
+      rails (>= 4.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -128,7 +136,7 @@ GEM
     metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (1.25.1)
-    minitest (5.4.0)
+    minitest (5.3.3)
     minitest-rails (2.0.3)
       minitest (>= 5.3.3, < 6.0)
       railties (~> 4.1)
@@ -250,7 +258,8 @@ DEPENDENCIES
   jquery-ui-rails (~> 5.0.0)
   json
   kaminari (~> 0.16.1)
-  minitest-rails (~> 2.0.0.beta1)
+  minitest (~> 5.3.3)
+  minitest-rails (~> 2.0.0)
   mocha (~> 0.14)
   money-rails
   pg (~> 0.17.1)
@@ -261,6 +270,7 @@ DEPENDENCIES
   rails (~> 4.1.4)
   rails_12factor
   rails_layout
+  self_systeem!
   simple_form (~> 3.0.0)
   simplecov (~> 0.8)
   sqlite3

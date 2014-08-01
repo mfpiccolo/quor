@@ -33,6 +33,8 @@ gem "pg_search"
 
 gem "best_in_place", github: "bernat/best_in_place", branch: "rails-4"
 
+gem "self_systeem", path: "../../mfpiccolo/self_systeem"
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_21]
@@ -49,7 +51,8 @@ group :test do
   gem "mocha", "~> 0.14", require: false
 
   # thincloud-test-rails
-  gem "minitest-rails", "~> 2.0.0.beta1"
+  gem "minitest", "~> 5.3.3"
+  gem "minitest-rails", "~> 2.0.0"
   gem "database_cleaner", "1.2"
   gem "factory_girl_rails", "~> 4.2.1"
 end
