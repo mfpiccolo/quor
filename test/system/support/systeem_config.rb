@@ -1,9 +1,7 @@
+require "test_helper"
 ENV["RAILS_ENV"] = "test"
 require File.expand_path("../../../../config/environment", __FILE__)
-if Systeem.test_framework == "minitest"
-  require "minitest/spec"
-  require "minitest/spec"
-end
+
 require "rails/test_help"
 
 DatabaseCleaner.strategy = :truncation

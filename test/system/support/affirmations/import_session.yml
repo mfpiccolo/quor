@@ -1,0 +1,13 @@
+---
+session_id: d78b04f4584364be519de60e85a237db
+run_count: 68
+flash:
+  discard:
+  - alert
+  flashes:
+    alert: You need to sign in or sign up before continuing.
+    notice: Signed in successfully.
+warden.user.user.key:
+- - 1
+- "$2a$04$aSVnH3abZqyYjfD4XgjpD."
+_csrf_token: zUZwNUxFq20CnvFNEs0pcbUSmK/6bb2lza4OPvyUyIE=

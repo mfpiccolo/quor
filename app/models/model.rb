@@ -77,26 +77,32 @@ class Model < Pliable::Ply
     end
   end
 
-  def method_missing(name, *)
-    set_blank_ply_attributes
-    if self.respond_to?(name)
-      self.send(name)
-    elsif parents_present? && self.parent_scopes.include?(name)
-      set_parent_scopes
-      self.send(name)
-    elsif child_scope.present?
-      set_children_scopes
-      self.send(name)
+  def method_missing(name, *args)
+    unless [:otype, :data].include?(name)
+      set_blank_ply_attributes
+      if self.respond_to?(name)
+        self.send(name, *args)
+      elsif parents_present? && self.parent_scopes.include?(name)
+        set_parent_scopes
+        self.send(name)
+      elsif child_scope.present?
+        set_children_scopes
+        self.send(name)
+      else
+        super
+      end
     else
       super
     end
   end
 
   def set_blank_ply_attributes
-    Model.data_keys(otype: otype).each do |k|
-      unless self.respond_to?(k.to_sym)
-        instance_variable_set(('@' + k.to_s).to_sym, "")
-        define_singleton_method(k) { instance_variable_get(('@' + k.to_s).to_sym) }
+    if model_data_keys = Model.data_keys(otype: otype)
+      model_data_keys.each do |k|
+        unless self.respond_to?(k.to_sym)
+          instance_variable_set(('@' + k.to_s).to_sym, "")
+          define_singleton_method(k) { instance_variable_get(('@' + k.to_s).to_sym) }
+        end
       end
     end
   end

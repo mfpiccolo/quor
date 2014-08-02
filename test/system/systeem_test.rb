@@ -1,3 +1,4 @@
+require "test_helper"
 require "./" + SelfSysteem.test_dir + "/system/support/systeem_config.rb"
 
 SysteemConfig::Features.each do |f|
@@ -33,6 +34,18 @@ SysteemConfig::Features.each do |f|
         # Only needed if devise
         @request.env["devise.mapping"] = Devise.mappings[:user] if defined? Devise
 
+        if a[:request_parameters].keys.include?("file") && a[:request_parameters]["file"].present?
+          file_info = a[:request_parameters]["file"]
+          filename = file_info["filename"]
+          upload = ActionDispatch::Http::UploadedFile.new({
+            :filename => filename,
+            :content_type => file_info["content_type"],
+            :tempfile => File.new("#{Rails.root}/test/system/support/files/#{filename}")
+          })
+
+          a[:request_parameters]["file"] = upload
+        end
+
         send(a[:request_method].downcase.to_sym, a[:action], a[:request_parameters], SysteemConfig::Session)
         SysteemConfig::Session.merge! session
       end
@@ -44,9 +57,9 @@ SysteemConfig::Features.each do |f|
         instance_variable_objects = builder.instance_variable_objects
 
         assert_response a[:status]
-        assert_equal(a[:relevant_instance_varaibles], relevant_instance_varaibles.to_s)
+        assert(JSON.parse(a[:relevant_instance_varaibles]).to_set == relevant_instance_varaibles.to_set)
         assert_equal(a[:instance_variable_objects], instance_variable_objects)
-        assert_equal(a[:templates], @_templates)
+        assert_equal(a[:templates].keys, @_templates.keys)
       }
     end
   end

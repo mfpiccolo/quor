@@ -6,6 +6,7 @@ require "rails/test_help"
 require "minitest/rails"
 require "minitest/pride"
 require "mocha/setup"
+require "self_systeem"
 
 ActiveRecord::Migration.maintain_test_schema!
 
