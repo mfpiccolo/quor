@@ -55,9 +55,17 @@
                     </div>
                 </div>
             </section>
-            <%= link_to "#panel1c", class: "left-off-canvas-toggle" do %>
-                <%= fa_icon("forms", text: "", class: "fa-bars fa-2x") %>
-            <% end %>
+            <div class="row toggle-row">
+                <div class="large-12 medium-12 small-12 columns">
+                    <%= link_to "#panel1c", class: "left-off-canvas-toggle" do %>
+                        <%= fa_icon("forms", text: "", class: "fa-bars fa-2x") %>
+                    <% end %>
+                    <%= link_to "#panel1c", class: "right-off-canvas-toggle" do %>
+                        <%= fa_icon("forms", text: "", class: "fa-bars fa-2x") %>
+                    <% end %>
+                </div>
+            </div>
+            </div>
             <div class="off-canvas-wrap" data-offcanvas>
                 <div class="inner-wrap">
                     <aside class="left-off-canvas-menu">
@@ -101,6 +109,18 @@
                                                 </li>
                                             </ul>
                                         </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                    <aside class="right-off-canvas-menu">
+                        <div class="row right-off-row">
+                            <div class="no-padding">
+                                <div class="large-12 medium-12 small-12 columns">
+                                    <h3>Activity History</h3>
+                                    <ul class="side-nav">
+                                        <%= render "layouts/activity" %>
                                     </ul>
                                 </div>
                             </div>

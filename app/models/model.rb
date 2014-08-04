@@ -5,6 +5,8 @@ class Model < Pliable::Ply
 
   after_initialize :set_ply_attributes
 
+  has_paper_trail meta: { otype: :otype, diff: :changes, whodunnit_email: :whodunnit_email }
+
   include PgSearch
   pg_search_scope :search_data,
     against: :data,
@@ -64,15 +66,59 @@ class Model < Pliable::Ply
     Model.data_keys(otype: otype)
   end
 
+  def changes
+    changes_hash = ActiveSupport::HashWithIndifferentAccess[changed.map { |attr| [attr, attribute_change(attr)] }]
+    if changes_hash.keys.include?("data")
+      changes_hash.merge!(changes_hash["data"])
+      changes_hash.delete("data")
+    end
+    changes_hash
+  end
+
+  def attribute_change(attr)
+    if attr == "data"
+      get_attr = diff(raw_data_hash, data)
+    else
+      [changed_attributes[attr], __send__(attr)] if attribute_changed?(attr)
+    end
+  end
+
+  def update_attributes(attributes)
+    # The following transaction covers any possible database side-effects of the
+    # attributes assignment. For example, setting the IDs of a child collection.
+    attributes.merge!(last_version_changes: changes)
+    with_transaction_returning_status do
+      assign_attributes(attributes)
+      save
+    end
+  end
+
+  def whodunnit_email
+    User.find(PaperTrail.whodunnit).email if PaperTrail.whodunnit.present?
+  end
+
 
   private
 
   def set_ply_attributes
+    @data_attrs = []
     data.merge!(external_id: data["id"]).delete("id") if data.keys.any? { |k| k == "id" }
     if data.present?
       data.each do |key,value|
         define_singleton_method(key.to_s) { self.data[key] }
-        define_singleton_method(key.to_s + "=") {|a| self.data[key] = a}
+        define_singleton_method(key.to_s + "=") { |a| self.data[key] = a }
+        @data_attrs << key
+      end
+    end
+  end
+
+  def set_blank_ply_attributes
+    if model_data_keys = Model.data_keys(otype: otype)
+      model_data_keys.each do |k|
+        unless self.respond_to?(k.to_sym)
+          instance_variable_set(('@' + k.to_s).to_sym, "")
+          define_singleton_method(k) { instance_variable_get(('@' + k.to_s).to_sym) }
+        end
       end
     end
   end
@@ -93,17 +139,6 @@ class Model < Pliable::Ply
       end
     else
       super
-    end
-  end
-
-  def set_blank_ply_attributes
-    if model_data_keys = Model.data_keys(otype: otype)
-      model_data_keys.each do |k|
-        unless self.respond_to?(k.to_sym)
-          instance_variable_set(('@' + k.to_s).to_sym, "")
-          define_singleton_method(k) { instance_variable_get(('@' + k.to_s).to_sym) }
-        end
-      end
     end
   end
 
@@ -132,5 +167,22 @@ class Model < Pliable::Ply
       end
     end
   end
+
+  def diff(hash1, hash2)
+     hash1.keys.inject({}) do |memo, key|
+       unless hash1[key] == hash2[key]
+         memo[key] = [hash1[key], hash2[key]]
+       end
+       memo
+     end
+   end
+
+   def raw_data_hash
+    if @raw_attributes["data"].is_a? String
+      JSON.parse(@raw_attributes["data"])
+    elsif @raw_attributes.is_a? Hash
+      @raw_attributes["data"]
+    end
+   end
 
 end

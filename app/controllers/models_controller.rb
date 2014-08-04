@@ -32,10 +32,12 @@ class ModelsController < ApplicationController
     @model_data_index = Hash[@data_keys.map.with_index.to_a]
     @filters = current_user.filters.where(model_type: @model_otype)
     @current_model_names = current_user.models.model_names
+    @versions = Version.where(otype: @model_otype)
   end
 
   def show
     @current_model_names = current_user.models.model_names
+    @versions = Version.where(otype: @model.otype, item_id: @model.id)
   end
 
   def edit
@@ -43,14 +45,9 @@ class ModelsController < ApplicationController
 
   def update
     new_model_data = @model.data
-
     new_model_data.merge!(model_params)
-    @model.data = new_model_data
 
-    if @model.valid?
-      @model.update_columns(data: new_model_data)
-      # track_activity(@model, :tecr)
-    end
+    @model.update_attributes(data: new_model_data)
 
     respond_to do |format|
       format.html { redirect_to(model_path(@model), :notice => 'Model was successfully updated.') }

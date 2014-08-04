@@ -57,7 +57,7 @@ SysteemConfig::Features.each do |f|
         instance_variable_objects = builder.instance_variable_objects
 
         assert_response a[:status]
-        assert(JSON.parse(a[:relevant_instance_varaibles]).to_set == relevant_instance_varaibles.to_set)
+        assert_equal(JSON.parse(a[:relevant_instance_varaibles]).to_set, relevant_instance_varaibles.to_set)
         assert_equal(a[:instance_variable_objects], instance_variable_objects)
         assert_equal(a[:templates].keys, @_templates.keys)
       }

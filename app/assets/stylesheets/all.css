@@ -871,3 +871,15 @@ p {
   width:35%;
   border:1px solid red;
 }*/
+
+.toggle-row {
+    padding-top: 10px;
+}
+
+.right-off-canvas-toggle {
+    float: right
+}
+
+.right-off-row {
+  margin-left: 0 !important;
+}

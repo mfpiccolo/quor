@@ -1,7 +1,8 @@
 source 'http://rubygems.org'
 ruby '2.1.2'
 
-gem 'rails', '~> 4.1.4'
+gem 'rails', github: "rails/rails", ref: "4bf8ffc6516312e68fb0d2b4ac97505f8d0cf192"
+gem "arel", github: "rails/arel"
 
 gem 'pg', "~> 0.17.1"
 
@@ -26,6 +27,8 @@ gem 'devise', "~> 3.2.4"
 gem 'faraday'
 gem 'hashie'
 gem 'xml-simple'
+
+gem 'paper_trail', '~> 3.0.3'
 
 gem "pliable",  github: "mfpiccolo/pliable" #"~> 0.2.1"
 

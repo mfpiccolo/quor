@@ -1,0 +1,9 @@
+<% if @versions.present? %>
+  <% @versions.each do |v| %>
+    <li>
+      <div><%= v.created_at %></div>
+      <div><%= v.whodunnit_email %></div>
+      <div><%= filter_changes(v.diff) %></div>
+    </li>
+  <% end %>
+<% end %>
