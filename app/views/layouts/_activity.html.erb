@@ -1,7 +1,8 @@
 <% if @versions.present? %>
   <% @versions.each do |v| %>
     <li>
-      <div><%= v.created_at %></div>
+      <div><%= v.created_at.to_s(:pretty)  %></div>
+      <div><%= link_to "#{v.otype} ##{v.item_id}", model_path(v.item_id) %></div>
       <div><%= v.whodunnit_email %></div>
       <div><%= filter_changes(v.diff) %></div>
     </li>

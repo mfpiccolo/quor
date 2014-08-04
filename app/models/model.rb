@@ -7,6 +7,9 @@ class Model < Pliable::Ply
 
   has_paper_trail meta: { otype: :otype, diff: :changes, whodunnit_email: :whodunnit_email }
 
+  has_many :versions, as: :item
+
+  # TODO fix pg search
   include PgSearch
   pg_search_scope :search_data,
     against: :data,

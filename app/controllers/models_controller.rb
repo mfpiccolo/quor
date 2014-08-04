@@ -32,12 +32,12 @@ class ModelsController < ApplicationController
     @model_data_index = Hash[@data_keys.map.with_index.to_a]
     @filters = current_user.filters.where(model_type: @model_otype)
     @current_model_names = current_user.models.model_names
-    @versions = Version.where(otype: @model_otype)
+    @versions = Version.joins(:model).merge(Model.where(otype: @model_otype, user: current_user))
   end
 
   def show
     @current_model_names = current_user.models.model_names
-    @versions = Version.where(otype: @model.otype, item_id: @model.id)
+    @versions = @model.versions
   end
 
   def edit
@@ -76,13 +76,20 @@ class ModelsController < ApplicationController
     end
 
     if (Searcher::Operators << ":").any? { |join| params[:query].include? join }
-      model_search_scope = Searcher.call(current_user, @model_otype, params[:query])
+      searcher = Searcher.call(current_user, @model_otype, params[:query])
+      model_search_scope = searcher.final_scope
       @count = model_search_scope.count
       @models = model_search_scope.order(sort_column + " " + sort_direction).order(:updated_at).page params[:page]
     else
-      @count = current_user.models.where(otype: @model_otype).search_data(params[:query]).count(:all)
-      @models = current_user.models.where(otype: @model_otype).search_data(params[:query]).order(:updated_at).page params[:page]
+      # TODO fix search_data pg method and pass scope to @versions
+      model_search_scope = current_user.models.where(otype: @model_otype).search_data(params[:query])
+      @count =  model_search_scope.count(:all)
+      @models = model_search_scope.order(:updated_at).page params[:page]
     end
+
+    # TODO use searcher scope to return only versions that are associated
+    # to models in the search scope
+    @versions = Version.joins(:model).merge(searcher.final_scope)
 
     @filters = current_user.filters.where(model_type: @model_otype)
     @data_keys = @models.data_keys(otype: @model_otype)

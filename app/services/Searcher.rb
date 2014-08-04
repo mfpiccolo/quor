@@ -2,7 +2,7 @@ class Searcher
 
   Operators = ["<=", ">=", "<", ">", "=", "(", ")"]
 
-  attr_reader :user, :type, :query_string, :query_array, :scope, :sql_string, :sql_array
+  attr_reader :user, :type, :query_string, :query_array, :scope, :sql_string, :sql_array, :final_scope
 
   def self.call(user, type, query_string)
     new(user, type, query_string).call
@@ -20,7 +20,8 @@ class Searcher
     build_sql_array(query_string)
     build_sql_string
     scope = @user.models.where(otype: type)
-    scope.where(@final_sql_array.join(""))
+    @final_scope = scope.where(@final_sql_array.join(""))
+    self
   end
 
   private
