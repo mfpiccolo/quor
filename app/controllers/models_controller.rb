@@ -32,7 +32,8 @@ class ModelsController < ApplicationController
     @model_data_index = Hash[@data_keys.map.with_index.to_a]
     @filters = current_user.filters.where(model_type: @model_otype)
     @current_model_names = current_user.models.model_names
-    @versions = Version.joins(:model).merge(Model.where(otype: @model_otype, user: current_user))
+    @versions = Version.joins(:model).merge(Model.where(otype: @model_otype, user: current_user)).order('created_at DESC')
+    @states = current_user.model_states.where("otype = '#{@model_otype}' or otype = 'all' AND name != 'initial'")
   end
 
   def show
