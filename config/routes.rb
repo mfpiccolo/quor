@@ -8,5 +8,9 @@ Rails.application.routes.draw do
     collection { get :search }
   end
 
+  resources :model_states, only: [] do
+    collection { post :transition }
+  end
+
   resources :users, only: [:edit, :update]
 end

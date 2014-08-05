@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140804075326) do
+ActiveRecord::Schema.define(version: 20140805070026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 20140804075326) do
     t.string  "name",       limit: 255
   end
 
+  create_table "model_states", force: true do |t|
+    t.string   "name"
+    t.string   "otype"
+    t.string   "transition_to"
+    t.string   "transition_from"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
   create_table "plies", force: true do |t|
     t.integer  "user_id"
     t.string   "oid",                  limit: 255
@@ -37,6 +47,8 @@ ActiveRecord::Schema.define(version: 20140804075326) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.json     "last_version_changes",             default: {}
+    t.integer  "model_state_id"
+    t.string   "state"
   end
 
   create_table "ply_relations", force: true do |t|

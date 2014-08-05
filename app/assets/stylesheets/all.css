@@ -4,6 +4,11 @@ body {
     background-color: #f3f3f3;
 }
 
+.f-dropdown {
+    position: absolute;
+    left: -99999px;
+}
+
 .left-off-canvas-menu {
     background: #f3f3f3 !important;
 }

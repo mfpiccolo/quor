@@ -55,6 +55,9 @@
                     </div>
                 </div>
             </section>
+            <% if flash[:error] %>
+              <div class="error"><%= flash[:error] %></div>
+            <% end %>
             <div class="row toggle-row">
                 <div class="large-12 medium-12 small-12 columns">
                     <%= link_to "#panel1c", class: "left-off-canvas-toggle" do %>
