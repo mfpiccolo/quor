@@ -1,41 +1,73 @@
-<h2><%= @model_otype %></h2>
+<div class="row">
+  <div class="large-12 medium-12 small-12 columns">
+    <h2><%= @model.otype %></h2>
 
-<%= form_tag search_models_path, method: :get do %>
-  <%= hidden_field_tag 'id', @model.id %>
-  <%= text_field_tag :query, params[:query],
-    id: "search", placeholder: "Search", class: "search-box" %>
-  <%= submit_tag "Search" %>
-  <%= text_field_tag :name, nil, id: "filter-name",
-    placeholder: "Filter Name"%>
-  <%= submit_tag "Save Filter" %>
-<% end %>
+    <div><%= link_to "Edit", edit_model_path(@model) %></div>
 
-<div>Count: <%= @count %></div>
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table class="table" id="models">
+          <% @model.data.keys.each do |k| %>
+            <tr><td><%= k %></td><td><%= @model.send(k.to_sym) %></td></tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
 
-<div>
-  <% if @filters.present? %>
-    <% @filters.each do |f| %>
-      <div><%= link_to f.name, search_models_path(id: @model.id, query: f.query) %></div>
-    <% end %>
-  <% end %>
-</div>
+    <% if @model.parents_present? %>
+      <% @model.parent_scopes.each do |s| %>
+        <% current_model_scope = @model.send(s) %>
+        <% current_model_scope.each do |m| %>
+          <h3>Belongs to <%= m.otype.pluralize %></h3>
+          <div id="table-wrapper">
+            <div id="table-scroll">
+              <table class="table" id="models">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <% m.model_data_keys.each do |k| %>
+                      <th><%= k %></th>
+                    <% end %>
+                    <th></th>
+                  </tr>
+                </thead>
 
-<% if @models.present? %>
-  <table class="table" id="models">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <% @data_keys.each do |k| %>
-          <th><%= k %></th>
+                <tbody class="page">
+                  <%= render "model", models: current_model_scope %>
+                </tbody>
+              </table>
+            </div>
+          </div>
         <% end %>
-        <th></th>
-      </tr>
-    </thead>
+      <% end %>
+    <% end %>
 
-    <tbody class="page">
-      <%= render "model" %>
-    </tbody>
-  </table>
 
-  <%= paginate @models %>
-<% end %>
+    <% if child_scopes = @model.child_scopes %>
+      <% child_scopes.each do |s| %>
+        <% current_child_scope = @model.send(s) %>
+        <% current_child_model = current_child_scope.first %>
+        <div id="table-wrapper">
+          <div id="table-scroll">
+            <table class="table" id="models">
+              <h3>Has Many <%= current_child_model.otype.pluralize %></h3>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <% current_child_model.model_data_keys.each do |k| %>
+                    <th><%= k %></th>
+                  <% end %>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="page">
+                <%= render "model", models: current_child_scope %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

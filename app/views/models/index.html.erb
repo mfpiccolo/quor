@@ -1,21 +1,75 @@
-<table class="table">
-  <tr>
-  </tr>
-  <% @model_names.each do |m| %>
-    <% current_model = Model.where(otype: m) %>
-    <tr>
-      <td><%= link_to m, model_path(current_model.first) %></td>
-      <% current_model.data_keys(m).each do |k| %>
-        <td><%= k %></td>
-      <% end %>
-    <tr>
-  <% end %>
-</table>
+<div class="row">
+  <div class="large-12 medium-12 small-12 columns">
+    <h2><%= @model_otype %></h2>
 
-<h2>Import Models</h2>
-<%= form_tag import_models_path, multipart: true do %>
-  <%= label_tag :model_name %>
-  <%= text_field_tag :model_name %>
-  <%= file_field_tag :file %>
-  <%= submit_tag "Import" %>
-<% end %>
+    <%= form_tag search_models_path, method: :get do %>
+      <%= hidden_field_tag 'otype', @model_otype %>
+      <div class="row">
+        <div class="small-12 large-6 columns">
+          <div class="row collapse">
+            <div class="small-10 columns">
+              <%= text_field_tag :query, params[:query],
+                id: "search", placeholder: "Search", class: "search-box" %>
+            </div>
+            <div class="small-2 columns">
+              <%= submit_tag "Search", class: "button postfix" %>
+            </div>
+          </div>
+        </div>
+        <div class="small-12 large-6 columns">
+          <div class="row collapse">
+            <div class="small-10 columns">
+              <%= text_field_tag :name, nil, id: "filter-name",
+                placeholder: "Filter Name"%>
+            </div>
+            <div class="small-2 columns">
+              <%= submit_tag "Save Filter", class: "button postfix" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div>Count: <%= @count %></div>
+
+    <h3>Filters</h3>
+    <ul class="inline-list" id="filter-list">
+      <% if @filters.present? %>
+        <% @filters.each do |f| %>
+          <li><%= link_to f.name, search_models_path(otype: @model_otype, query: f.query), class: "button tiny" %></li>
+        <% end %>
+      <% end %>
+    </ul>
+
+    <% if @models.present? %>
+      <div class="row collapse">
+        <div class="small-3 large-2 columns">
+          <span class="prefix">Count</span>
+        </div>
+        <div class="small-9 large-10 columns">
+          <input type="text" placeholder="Enter your URL...">
+        </div>
+      </div>
+      <div id="table-wrapper">
+        <div id="table-scroll">
+          <table class="table" id="models">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <% @data_keys.each do |k| %>
+                  <th><%= k %></th>
+                <% end %>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody class="page">
+              <%= render "model" %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <%= paginate @models %>
+    <% end %>
+  </div>
+</div>

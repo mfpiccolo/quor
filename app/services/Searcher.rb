@@ -2,7 +2,7 @@ class Searcher
 
   Operators = ["<=", ">=", "<", ">", "=", "(", ")"]
 
-  attr_reader :user, :type, :query_string, :query_array, :scope, :sql_string, :sql_array
+  attr_reader :user, :type, :query_string, :query_array, :scope, :sql_string, :sql_array, :final_scope
 
   def self.call(user, type, query_string)
     new(user, type, query_string).call
@@ -20,7 +20,8 @@ class Searcher
     build_sql_array(query_string)
     build_sql_string
     scope = @user.models.where(otype: type)
-    scope.where(@final_sql_array.join(""))
+    @final_scope = scope.where(@final_sql_array.join(""))
+    self
   end
 
   private
@@ -34,7 +35,6 @@ class Searcher
   def build_sql_array(string, parens: false)
     ordered_ops_array = string.to_enum(:scan, /(\(.+\)|\|{2}|&&|[^|&]*)/)
       .map { Regexp.last_match }.map(&:to_s).delete_if(&:empty?)
-
     if parens
       @count = ordered_ops_array.size
     end
@@ -57,10 +57,17 @@ class Searcher
     @final_sql_array = sql_array.map(&:strip).map do |string|
       if string.include?(":")
         q = string.split(":")
-        "(((to_tsvector('simple', coalesce(data ->> '#{q[0].strip}', ''))) @@ (to_tsquery('simple', ''' ' || '#{q[1].strip}' || ' '''))))"
+        "(similarity((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > .5 OR " +
+        "(data->>'#{q[0].strip}')::text ILIKE '%#{q[1].strip}%')"
+        # "difference((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > 3"
+        # "levenshtein((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > 22"
+        # "(((to_tsvector('simple', coalesce(data ->> '#{q[0].strip}', ''))) @@ (to_tsquery('simple', ''' ' || '#{q[1].strip}' || ' '''))))"
       elsif [">=", "<=", ">", "<"].any? { |join| string.include? join }
         q = string.gsub(/\s+/m, ' ').strip.split(" ")
         "(data->>'#{q[0].strip}')::int #{q[1]} #{q[2]}"
+      elsif string.include?("=")
+        q = string.gsub(/\s+/m, ' ').strip.split(" ")
+        "(data->>'#{q[0].strip}')::text #{q[1]} '#{q[2]}'"
       elsif string == "||"
         " OR "
       elsif string == "&&"

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root :to => "visitors#index"
 
   resources :models do
+    collection { get :model_types }
     collection { post :import }
     collection { get :search }
   end

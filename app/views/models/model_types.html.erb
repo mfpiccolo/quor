@@ -1,0 +1,37 @@
+<h2>Models</h2>
+
+<fieldset>
+  <h3>Import CSV</h3>
+  <%= form_tag import_models_path, multipart: true do %>
+    <div class="row">
+      <div class="large-4 columns">
+        <%= label_tag :model_name %>
+        <%= text_field_tag :model_name %>
+      </div>
+      <div class="large-5 columns custom-file-upload">
+          <%= file_field_tag :file %>
+      </div>
+      <div class="large-3 columns">
+        <%= submit_tag "Import", class: "button" %>
+      </div>
+    </div>
+  <% end %>
+</fieldset>
+
+<div id="table-wrapper">
+  <div id="table-scroll">
+    <table class="table">
+      <tr>
+      </tr>
+      <% @model_names.each do |n| %>
+        <% current_model = current_user.models.where(otype: n) %>
+        <tr>
+          <td><%= link_to n, models_path(otype: n) %></td>
+          <% current_model.data_keys(otype: n).each do |k| %>
+            <td><%= k %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

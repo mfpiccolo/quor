@@ -1,0 +1,12 @@
+---
+session_id: cc812ac25b8a9ce70f51a2c827b0094c
+run_count: 68
+flash:
+  discard:
+  - alert
+  flashes:
+    alert: You need to sign in or sign up before continuing.
+    notice: Signed in successfully.
+warden.user.user.key:
+- - 1
+- "$2a$04$aSVnH3abZqyYjfD4XgjpD."
