@@ -5,6 +5,20 @@
 <% @models.each do |m| %>
   <tr class="model">
     <td><%= link_to m.id, model_path(m) %></td>
+    <td>
+      <%= link_to (m.state + " &raquo;").html_safe, "#", class: "button small", data: { options: "align:right", dropdown: "drop#{m.id}" } %>
+      <ul id="drop<%= m.id %>" class="tiny f-dropdown" data-dropdown-content>
+        <% if @states.present? %>
+          <% @states.each do |s| %>
+            <% unless s.state == m.state %>
+              <li><%= link_to(s.state, transition_model_states_path(model_id: m.id, transition_to_id: s.id), method: :post) %></a></li>
+            <% end %>
+          <% end %>
+        <% else %>
+          <li><a href="#">Add a state</a></li>
+        <% end %>
+      </ul>
+    </td>
     <% m.row(@model_data_index).each_pair do |k, i| %>
       <% if relation_data?(k) %>
         <td><%= link_to m.send(k.to_sym), relation_path(m, k) %></td>

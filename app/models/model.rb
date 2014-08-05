@@ -4,10 +4,12 @@ class Model < Pliable::Ply
   attr_accessor :parent_id_keys, :parent_scopes, :child_id_keys, :child_scopes
 
   after_initialize :set_ply_attributes
+  before_save :check_state
 
   has_paper_trail meta: { otype: :otype, diff: :changes, whodunnit_email: :whodunnit_email }
 
   has_many :versions, as: :item
+  belongs_to :model_state
 
   # TODO fix pg search
   include PgSearch
@@ -89,7 +91,13 @@ class Model < Pliable::Ply
   def update_attributes(attributes)
     # The following transaction covers any possible database side-effects of the
     # attributes assignment. For example, setting the IDs of a child collection.
-    attributes.merge!(last_version_changes: changes)
+    current_changes = if changes.present?
+      changes
+    else
+      diff(@raw_attributes.select {|k,v| attributes.keys.map(&:to_s).include?(k)}, attributes)
+    end
+
+    attributes.merge!(last_version_changes: current_changes)
     with_transaction_returning_status do
       assign_attributes(attributes)
       save
@@ -102,6 +110,10 @@ class Model < Pliable::Ply
 
 
   private
+
+  def check_state
+    self.state = model_state.name
+  end
 
   def set_ply_attributes
     @data_attrs = []
@@ -172,13 +184,15 @@ class Model < Pliable::Ply
   end
 
   def diff(hash1, hash2)
-     hash1.keys.inject({}) do |memo, key|
-       unless hash1[key] == hash2[key]
-         memo[key] = [hash1[key], hash2[key]]
-       end
-       memo
-     end
-   end
+    hash1 = ActiveSupport::HashWithIndifferentAccess.new(hash1)
+    hash2 = ActiveSupport::HashWithIndifferentAccess.new(hash2)
+    hash1.keys.inject({}) do |memo, key|
+      unless hash1[key] == hash2[key]
+        memo[key] = [hash1[key], hash2[key]]
+      end
+      memo
+    end
+  end
 
    def raw_data_hash
     if @raw_attributes["data"].is_a? String
