@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     collection { get :search }
   end
 
+  resources :email_template_details
+
   resources :model_states, only: [] do
     collection { post :transition }
   end

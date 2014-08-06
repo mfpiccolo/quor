@@ -1,0 +1,85 @@
+<%= form_for @email_template_detail, html: {multipart: true} do |f| %>
+  <div class="row">
+    <div class="small-12 large-6 columns">
+      <div class="row collapse">
+        <div class="small-12 columns">
+          <%= f.label :logo_file %>
+          <%= f.file_field :logo_file %>
+          <%= f.hidden_field :logo_file_cache %>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-12 large-6 columns">
+      <div class="row collapse">
+        <div class="small-12 columns">
+          <%= f.label :banner_file %>
+          <%= f.file_field :banner_file %>
+          <%= f.hidden_field :banner_file_cache %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <%= f.label :subject %>
+      <%= f.text_field :subject %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.label :header1_large %>
+      <%= f.text_field :header1_large %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.label :header1_small %>
+      <%= f.text_field :header1_small %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <%= f.label :banner_description %>
+      <%= f.text_field :banner_description %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.label :header2_large %>
+      <%= f.text_field :header2_large %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.label :header2_small %>
+      <%= f.text_field :header2_small %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <%= f.label :facebook_url %>
+      <%= f.text_field :facebook_url %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.label :twitter_url %>
+      <%= f.text_field :twitter_url %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.label :google_url %>
+      <%= f.text_field :google_url %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <%= f.label :call_to_action %>
+      <%= f.text_field :call_to_action %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= f.label :body %>
+      <%= f.text_area :body %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 large-6 columns">
+      <%= f.submit "Create Email Template", class: "button" %>
+    </div>
+  </div>
+<% end %>
+
+
+

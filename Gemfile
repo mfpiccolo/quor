@@ -16,6 +16,9 @@ gem "jquery-ui-rails",              "~> 5.0.0"
 gem 'foundation-rails', '~> 5.3.3.0'
 gem "font-awesome-rails",     "~> 4.1.0.0"
 
+gem 'carrierwave'
+gem "fog", "~> 1.3.1"
+gem 'rmagick', '2.13.2'
 
 gem 'simple_form', '~> 3.0.0'
 gem 'money-rails'
@@ -62,6 +65,7 @@ end
 
 group :development, :test do
   gem "pry-byebug"
+  gem 'dotenv-rails'
 end
 
 group :production do

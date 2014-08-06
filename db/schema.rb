@@ -11,13 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140805070026) do
+ActiveRecord::Schema.define(version: 20140806021502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
+
+  create_table "email_template_details", force: true do |t|
+    t.string   "logo_file"
+    t.string   "banner_file"
+    t.text     "subject"
+    t.string   "header1_large"
+    t.text     "header1_small"
+    t.text     "banner_description"
+    t.string   "header2_large"
+    t.string   "header2_small"
+    t.text     "body"
+    t.string   "call_to_action"
+    t.string   "facebook_url"
+    t.string   "twitter_url"
+    t.string   "google_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "filters", force: true do |t|
     t.integer "user_id"
