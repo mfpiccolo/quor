@@ -1,8 +1,8 @@
 # encoding: utf-8
 
 class BannerUploader < CarrierWave::Uploader::Base
-  include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  # include CarrierWave::RMagick
+  include CarrierWave::MiniMagick
 
   process :resize_to_fit => [580, 300]
 
