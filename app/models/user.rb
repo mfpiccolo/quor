@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :models
-  has_many :activities
   has_many :filters
   has_many :model_states
 end
