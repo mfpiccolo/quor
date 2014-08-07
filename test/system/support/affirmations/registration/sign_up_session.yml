@@ -1,0 +1,10 @@
+---
+session_id: 6fb5d86704e95072f6d50247240ef400
+_csrf_token: Lg0RfUqZyrgK6du6sl3wS1HA4lWLTIn8W4v2AzYjjW8=
+warden.user.user.key:
+- - 1
+- "$2a$10$Msu5JES.DSJ8vQR4IYgob."
+flash:
+  discard: []
+  flashes:
+    notice: Welcome! You have signed up successfully.

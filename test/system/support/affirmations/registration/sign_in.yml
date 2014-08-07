@@ -1,0 +1,108 @@
+---
+:requirements:
+- registration/sign_up
+:affirmations:
+- :request_method: GET
+  :request_path: "/"
+  :action: index
+  :request_parameters:
+    controller: visitors
+    action: index
+  :controller_class_name: VisitorsController
+  :status: 200
+  :body_text:
+  - "Welcome"
+  :partials:
+    layouts/_activity: 1
+    _activity: 1
+  :layouts:
+    layouts/application: 1
+    application: 1
+  :templates:
+    visitors/index: 1
+    layouts/_activity: 1
+    layouts/application: 1
+  :files: {}
+  :relevant_instance_variables: "[]"
+  :instance_variable_objects: {}
+- :request_method: GET
+  :request_path: "/users/sign_in"
+  :action: new
+  :request_parameters:
+    run: '1'
+    controller: devise/sessions
+    action: new
+  :controller_class_name: Devise::SessionsController
+  :status: 302
+  :body_text: "*skip"
+  :partials:
+    devise/shared/_links: 1
+    _links: 1
+    layouts/_activity: 1
+    _activity: 1
+  :layouts:
+    layouts/application: 1
+    application: 1
+  :templates:
+    devise/shared/_links: 1
+    devise/sessions/new: 1
+    layouts/_activity: 1
+    layouts/application: 1
+  :files: {}
+  :relevant_instance_variables: '["@devise_mapping", "@request_format", "@devise_parameter_sanitizer",
+    "@user"]'
+  :instance_variable_objects:
+    "@devise_mapping": {}
+    "@request_format": {}
+    "@devise_parameter_sanitizer": {}
+    "@user":
+      id:
+- :request_method: POST
+  :request_path: "/users/sign_in"
+  :action: create
+  :request_parameters:
+    utf8: "✓"
+    authenticity_token: YuwzHjdNElwNX/GaIWFF4ePLEpbWxm049yuecgyhZtM=
+    user:
+      email: test@guy.com
+      password: password
+      remember_me: '0'
+    commit: Sign in
+    controller: devise/sessions
+    action: create
+  :controller_class_name: Devise::SessionsController
+  :status: 302
+  :body_text: "*skip"
+  :partials: {}
+  :layouts: {}
+  :templates: {}
+  :files: {}
+  :relevant_instance_variables: '["@devise_mapping", "@request_format"]'
+  :instance_variable_objects:
+    "@devise_mapping": {}
+    "@request_format": {}
+- :request_method: GET
+  :request_path: "/"
+  :action: index
+  :request_parameters:
+    controller: visitors
+    action: index
+  :controller_class_name: VisitorsController
+  :status: 200
+  :body_text:
+  - "Welcome"
+  :partials:
+    layouts/_activity: 1
+    _activity: 1
+  :layouts:
+    layouts/application: 1
+    application: 1
+  :templates:
+    visitors/index: 1
+    layouts/_activity: 1
+    layouts/application: 1
+  :files: {}
+  :relevant_instance_variables: '["@current_user"]'
+  :instance_variable_objects:
+    "@current_user":
+      id: 1

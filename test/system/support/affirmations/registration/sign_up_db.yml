@@ -1,0 +1,31 @@
+
+---
+users:
+  columns:
+  - id
+  - email
+  - encrypted_password
+  - reset_password_token
+  - reset_password_sent_at
+  - remember_created_at
+  - sign_in_count
+  - current_sign_in_at
+  - last_sign_in_at
+  - current_sign_in_ip
+  - last_sign_in_ip
+  - created_at
+  - updated_at
+  records: 
+  - - '1'
+    - test@guy.com
+    - "$2a$10$Msu5JES.DSJ8vQR4IYgob.A2Ee7fXAklVep2l/EBg0JB4ruv12.la"
+    - 
+    - 
+    - 
+    - '1'
+    - '2014-08-07 06:05:00.017996'
+    - '2014-08-07 06:05:00.017996'
+    - 127.0.0.1
+    - 127.0.0.1
+    - '2014-08-07 06:05:00.012361'
+    - '2014-08-07 06:05:00.019071'
