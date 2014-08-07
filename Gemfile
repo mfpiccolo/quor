@@ -18,7 +18,7 @@ gem "font-awesome-rails",     "~> 4.1.0.0"
 
 gem 'carrierwave'
 gem "fog", "~> 1.3.1"
-gem 'rmagick', '2.13.2'
+gem 'mini_magick', '~> 3.8.0'
 
 gem 'simple_form', '~> 3.0.0'
 gem 'money-rails'
@@ -66,6 +66,7 @@ end
 group :development, :test do
   gem "pry-byebug"
   gem 'dotenv-rails'
+  gem 'railroady'
 end
 
 group :production do
