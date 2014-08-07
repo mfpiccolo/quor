@@ -112,7 +112,7 @@ class Model < Pliable::Ply
   private
 
   def check_state
-    self.state = model_state.name
+    self.state = model_state.name if model_state.present?
   end
 
   def set_ply_attributes
@@ -139,6 +139,7 @@ class Model < Pliable::Ply
   end
 
   def method_missing(name, *args)
+    # TODO protect agains malicious attrs
     unless [:otype, :data].include?(name)
       set_blank_ply_attributes
       if self.respond_to?(name)
