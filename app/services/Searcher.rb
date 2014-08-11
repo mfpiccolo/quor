@@ -1,6 +1,6 @@
 class Searcher
 
-  Operators = ["<=", ">=", "<", ">", "=", "(", ")"]
+  Operators = ["<=", ">=", "<", ">", "=", "!=", "(", ")"]
 
   attr_reader :user, :type, :query_string, :query_array, :scope, :sql_string, :sql_array, :final_scope
 
@@ -65,7 +65,7 @@ class Searcher
       elsif [">=", "<=", ">", "<"].any? { |join| string.include? join }
         q = string.gsub(/\s+/m, ' ').strip.split(" ")
         "(data->>'#{q[0].strip}')::int #{q[1]} #{q[2]}"
-      elsif string.include?("=")
+      elsif ["=", "!="].any? {|equal_opp| string.include?(equal_opp) }
         q = string.gsub(/\s+/m, ' ').strip.split(" ")
         "(data->>'#{q[0].strip}')::text #{q[1]} '#{q[2]}'"
       elsif string == "||"

@@ -1,0 +1,10 @@
+---
+session_id: 88dfea800f98d13304fd24d79540a645
+_csrf_token: YuwzHjdNElwNX/GaIWFF4ePLEpbWxm049yuecgyhZtM=
+warden.user.user.key:
+- - 1
+- "$2a$10$Msu5JES.DSJ8vQR4IYgob."
+flash:
+  discard: []
+  flashes:
+    alert: You are already signed in.

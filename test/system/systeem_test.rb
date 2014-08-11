@@ -50,17 +50,26 @@ SysteemConfig::Features.each do |f|
         SysteemConfig::Session.merge! session
       end
 
-      it {
-        controller_instance = response.request.env["action_controller.instance"] || self.instance_variable_get(:@controller)
+      it "#{f.inspect} - #{a[:controller_class_name]} - #{a[:action]}" do
+        controller_instance = response.request.env["action_controller.instance"] ||
+          self.instance_variable_get(:@controller)
         builder = SelfSysteem::InstanceVariablesBuilder.call(controller_instance)
-        relevant_instance_varaibles = builder.relevant_instance_varaibles
+        relevant_instance_variables = builder.relevant_instance_variables
         instance_variable_objects = builder.instance_variable_objects
 
-        assert_response a[:status]
-        assert_equal(JSON.parse(a[:relevant_instance_varaibles]).to_set, relevant_instance_varaibles.to_set)
-        assert_equal(a[:instance_variable_objects], instance_variable_objects)
-        assert_equal(a[:templates].keys, @_templates.keys)
-      }
+        if SelfSysteem.match_body_text && !(a[:body_text] == "*skip")
+          if a[:body_text].present?
+            assert_match(/#{a[:body_text].join("|")}/, controller_instance.response.body)
+          else
+            raise "Need to add body text to match against in " + f.inspect
+          end
+        end
+        assert_response a[:status] if SelfSysteem.match_status
+        assert_equal(JSON.parse(a[:relevant_instance_variables])
+          .to_set, relevant_instance_variables.to_set) if SelfSysteem.match_relevant_instance_variables
+        assert_equal(a[:instance_variable_objects], instance_variable_objects) if SelfSysteem.match_instance_variable_objects
+        assert_equal(a[:templates].keys, @_templates.keys) if SelfSysteem.match_templates
+      end
     end
   end
 

@@ -9,63 +9,46 @@
     action: index
   :controller_class_name: VisitorsController
   :status: 200
-  :partials: {}
+  :body_text:
+  - "Welcome"
+  :partials:
+    layouts/_activity: 1
+    _activity: 1
   :layouts:
     layouts/application: 1
     application: 1
   :templates:
     visitors/index: 1
+    layouts/_activity: 1
     layouts/application: 1
   :files: {}
-  :relevant_instance_varaibles: "[]"
+  :relevant_instance_variables: "[]"
   :instance_variable_objects: {}
-- :request_method: GET
-  :request_path: "/users/sign_in"
-  :action: new
-  :request_parameters:
-    action: new
-    controller: devise/sessions
-  :controller_class_name: Devise::SessionsController
-  :status: 200
-  :partials:
-    devise/shared/_links: 2
-    _links: 2
-  :layouts:
-    layouts/application: 2
-    application: 2
-  :templates:
-    devise/shared/_links: 2
-    devise/sessions/new: 2
-    layouts/application: 2
-  :files: {}
-  :relevant_instance_varaibles: '["@devise_mapping", "@request_format", "@devise_parameter_sanitizer",
-    "@user"]'
-  :instance_variable_objects:
-    "@devise_mapping": {}
-    "@request_format": {}
-    "@devise_parameter_sanitizer": {}
-    "@user":
-      id:
 - :request_method: GET
   :request_path: "/users/sign_up"
   :action: new
   :request_parameters:
-    action: new
     controller: devise/registrations
+    action: new
   :controller_class_name: Devise::RegistrationsController
   :status: 200
+  :body_text:
+  - "Sign up"
   :partials:
     devise/shared/_links: 1
     _links: 1
+    layouts/_activity: 1
+    _activity: 1
   :layouts:
     layouts/application: 1
     application: 1
   :templates:
     devise/shared/_links: 1
     devise/registrations/new: 1
+    layouts/_activity: 1
     layouts/application: 1
   :files: {}
-  :relevant_instance_varaibles: '["@devise_mapping", "@request_format", "@user"]'
+  :relevant_instance_variables: '["@devise_mapping", "@request_format", "@user"]'
   :instance_variable_objects:
     "@devise_mapping": {}
     "@request_format": {}
@@ -76,21 +59,22 @@
   :action: create
   :request_parameters:
     utf8: "✓"
-    authenticity_token: vKikA5ytZmoQhWN5Wcciw0zrfDqL1r7XvJlGYrVfyQ8=
+    authenticity_token: Lg0RfUqZyrgK6du6sl3wS1HA4lWLTIn8W4v2AzYjjW8=
     user:
       email: test@guy.com
-      password: sac93!ron
-      password_confirmation: sac93!ron
+      password: password
+      password_confirmation: password
     commit: Sign up
-    action: create
     controller: devise/registrations
+    action: create
   :controller_class_name: Devise::RegistrationsController
   :status: 302
+  :body_text: "*skip"
   :partials: {}
   :layouts: {}
   :templates: {}
   :files: {}
-  :relevant_instance_varaibles: '["@devise_mapping", "@request_format", "@user", "@devise_parameter_sanitizer"]'
+  :relevant_instance_variables: '["@devise_mapping", "@request_format", "@user", "@devise_parameter_sanitizer"]'
   :instance_variable_objects:
     "@devise_mapping": {}
     "@request_format": {}
@@ -98,24 +82,27 @@
       id: 1
     "@devise_parameter_sanitizer": {}
 - :request_method: GET
-  :request_path: "/models/model_types"
-  :action: model_types
+  :request_path: "/"
+  :action: index
   :request_parameters:
-    action: model_types
-    controller: models
-  :controller_class_name: ModelsController
+    controller: visitors
+    action: index
+  :controller_class_name: VisitorsController
   :status: 200
-  :partials: {}
+  :body_text:
+  - "Welcome"
+  :partials:
+    layouts/_activity: 1
+    _activity: 1
   :layouts:
     layouts/application: 1
     application: 1
   :templates:
-    models/model_types: 1
+    visitors/index: 1
+    layouts/_activity: 1
     layouts/application: 1
   :files: {}
-  :relevant_instance_varaibles: '["@current_user", "@model_names", "@models"]'
+  :relevant_instance_variables: '["@current_user"]'
   :instance_variable_objects:
     "@current_user":
       id: 1
-    "@model_names": {}
-    "@models": {}
