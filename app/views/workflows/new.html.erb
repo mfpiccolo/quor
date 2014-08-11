@@ -1,0 +1,9 @@
+<%= simple_form_for @workflow do |f| %>
+  <%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
+  <%= f.input :model_otype %>
+  <%= f.input :trigger_text %>
+  <%= f.input :condition_text %>
+  <%= f.input :action_text %>
+
+  <%= f.submit "Create Workflow" , class: "button" %>
+<% end %>

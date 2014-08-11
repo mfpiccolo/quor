@@ -1,14 +1,17 @@
 class Model < Pliable::Ply
   belongs_to :user
 
-  attr_accessor :parent_id_keys, :parent_scopes, :child_id_keys, :child_scopes
+  attr_accessor :parent_id_keys, :parent_scopes, :child_id_keys, :child_scopes, :bad_attr_names
 
   after_initialize :set_ply_attributes
   before_save :check_state
+  before_save :run_workflows
+  before_save :check_for_bad_attributes
 
   has_paper_trail meta: { otype: :otype, diff: :changes, whodunnit_email: :whodunnit_email }
 
   has_many :versions, as: :item
+  has_many :workflows
   belongs_to :model_state
 
   # TODO fix pg search
@@ -77,7 +80,13 @@ class Model < Pliable::Ply
       changes_hash.merge!(changes_hash["data"])
       changes_hash.delete("data")
     end
-    changes_hash
+
+    # Allows changes to reflect json data attributes as first class attributes
+    if last_version_changes.present?
+      changes_hash.merge!(last_version_changes).delete_if {|k| k == "last_version_changes"}
+    else
+      changes_hash
+    end
   end
 
   def attribute_change(attr)
@@ -108,6 +117,19 @@ class Model < Pliable::Ply
     User.find(PaperTrail.whodunnit).email if PaperTrail.whodunnit.present?
   end
 
+  # Returns an array of all the methods users cannot name attributes or public_send the model
+  def bad_attribute_names
+    bad_attr_names = attributes.keys.map(&:to_sym)
+    bad_attr_names += ActiveRecord::Base.public_instance_methods.collect { |x| x.to_sym }
+    bad_attr_names += ActiveRecord::Base.protected_instance_methods.collect { |x| x.to_sym }
+    bad_attr_names += ActiveRecord::Base.private_instance_methods.collect { |x| x.to_sym }
+    bad_attr_names -= [:id]
+    bad_attr_names
+  end
+
+  def workflows
+    Workflow.where(model_otype: otype, user_id: user_id)
+  end
 
   private
 
@@ -143,13 +165,13 @@ class Model < Pliable::Ply
     unless [:otype, :data].include?(name)
       set_blank_ply_attributes
       if self.respond_to?(name)
-        self.send(name, *args)
+        self.public_send(name, *args)
       elsif parents_present? && self.parent_scopes.include?(name)
         set_parent_scopes
-        self.send(name)
+        self.public_send(name)
       elsif child_scope.present?
         set_children_scopes
-        self.send(name)
+        self.public_send(name)
       else
         super
       end
@@ -163,7 +185,7 @@ class Model < Pliable::Ply
       model_type = ActiveSupport::Inflector.humanize(k.to_sym)
       scope_name = ActiveSupport::Inflector.pluralize(model_type).downcase
       define_singleton_method(scope_name) do
-        Model.where("user_id = #{user_id} AND otype = '#{model_type}' AND (data->>'external_id')::int = #{self.send(k.to_sym)}")
+        Model.where("user_id = #{user_id} AND otype = '#{model_type}' AND (data->>'external_id')::int = #{self.public_send(k.to_sym)}")
       end
     end
   end
@@ -195,12 +217,41 @@ class Model < Pliable::Ply
     end
   end
 
-   def raw_data_hash
+  def raw_data_hash
     if @raw_attributes["data"].is_a? String
       JSON.parse(@raw_attributes["data"])
     elsif @raw_attributes.is_a? Hash
       @raw_attributes["data"]
     end
-   end
+  end
+
+  # The following methods are triggers by the run_workflows after save hook.
+  # They will run associated user-generated workflows on save
+  def run_action(action)
+    action.call(self)
+  end
+
+  def run_workflow_logic(wf)
+    if wf.triggered?(self) && wf.conditions_met?(self)
+      run_action(wf.action)
+    end
+  end
+
+  def run_workflows
+    if workflows.any?
+      workflows.each do |wf|
+        run_workflow_logic(wf)
+      end
+    end
+  end
+
+  # The following method will ensure that the json in the data attribute
+  # will not overwrite an reserved method name.
+  def check_for_bad_attributes
+    bad_attrs = data.keys.map(&:to_sym) & bad_attribute_names
+    if bad_attrs.present?
+      raise "Cannot save attributes named #{bad_attrs}"
+    end
+  end
 
 end

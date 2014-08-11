@@ -7,5 +7,6 @@ class User < ActiveRecord::Base
   has_many :models
   has_many :filters
   has_many :model_states
+  has_many :workflows
 end
 
