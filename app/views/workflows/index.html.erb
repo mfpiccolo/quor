@@ -1,3 +1,22 @@
-<%= @workflows.each do |w| %>
-  <%= w %>
-<% end %>
+<div id="table-wrapper">
+  <div id="table-scroll">
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Trigger Text</th>
+        <th>Condition Text</th>
+        <th>Action Text</th>
+        <th></th>
+      </tr>
+      <% @workflows.each do |w| %>
+        <tr>
+          <td><%= w.name %></td>
+          <td><%= w.trigger_text %></td>
+          <td><%= w.condition_text %></td>
+          <td><%= w.action_text %></td>
+          <td><%= link_to("Edit", edit_workflow_path(w), class: "button tiny") %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
