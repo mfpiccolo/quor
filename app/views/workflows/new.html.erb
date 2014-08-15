@@ -1,1 +1,3 @@
 <%= render "form" %>
+<%= content_tag("div", nil, id: "models", style: { display: :none }, data: { models: current_user.models.model_names } ) %>
+

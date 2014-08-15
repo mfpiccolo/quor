@@ -17,6 +17,7 @@
 //= require foundation
 //= require turbolinks
 //= require jquery.infinitescroll
+//= require select2
 //= require_tree .
 
 ready = function() {

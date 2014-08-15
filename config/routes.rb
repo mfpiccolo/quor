@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     collection { get :model_types }
     collection { post :import }
     collection { get :search }
+    collection { get :attributes }
   end
 
   resources :workflows

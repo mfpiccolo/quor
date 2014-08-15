@@ -1,10 +1,48 @@
 <%= simple_form_for @workflow do |f| %>
   <%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
-  <%= f.input :name %>
-  <%= f.input :model_otype %>
-  <%= f.input :trigger_text %>
-  <%= f.input :condition_text %>
-  <%= f.input :action_text %>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= f.input :name %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= f.input :model_otype %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <%= f.input :trigger_subject %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.input :trigger_function %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.input :trigger_arg %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <%= f.input :condition_subject %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.input :condition_function %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.input :condition_arg %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <%= f.input :action_subject %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.input :action_function %>
+    </div>
+    <div class="large-4 columns">
+      <%= f.input :action_arg %>
+    </div>
+  </div>
 
   <%= f.submit nil , class: "button" %>
 <% end %>

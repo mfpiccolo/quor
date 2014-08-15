@@ -16,6 +16,18 @@ module ActivityHelper
         end
       end
       html.html_safe
+    else
+      html = ""
+      hash.each_pair do |attr, changed_to_from|
+        if attr == "model_state_id"
+          from_state = ModelState.find(changed_to_from[0]).name if changed_to_from[0].present?
+          to_state = ModelState.find(changed_to_from[1]).name if changed_to_from[1].present?
+          html << "- state changed from #{from_state} to #{to_state}"
+        else
+          html << "- #{attr} changed from #{changed_to_from[0]} to #{changed_to_from[1]}</br>"
+        end
+      end
+      html.html_safe
     end
   end
 

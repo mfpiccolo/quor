@@ -4,7 +4,7 @@ class CsvImporter
     attr_reader :user_id, :model_name, :csv_file
 
     def initialize(user_id:, model_name:, csv_file:)
-
+      saldkfj
       @user_id = user_id
       @model_name = model_name
       @csv_file = csv_file

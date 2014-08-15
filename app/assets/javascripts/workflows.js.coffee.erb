@@ -1,0 +1,119 @@
+ready = ->
+  model_type = $("#workflow_model_otype").val()
+  model_types = $("#models").data().models
+  $("#workflow_model_otype").select2
+    tags: model_types
+    maximumSelectionSize: 1
+    formatResult: format_model
+    formatSelection: format_model
+    escapeMarkup: (m) ->
+      m
+    width: "resolve"
+
+  if $("#workflow_model_otype").val().length
+    populateSelects()
+
+  $("#s2id_workflow_model_otype").focusout ->
+    populateSelects()
+
+  trigger_functions   = ["changes_to"]
+  condition_functions = ["=", "!=", "<=", ">=", "<", ">"]
+  action_functions    = ["change_to"]
+
+  $("#workflow_trigger_function").select2
+    maximumSelectionSize: 1
+    tags: trigger_functions
+    formatResult: format_function
+    formatSelection: format_function
+    escapeMarkup: (m) ->
+      m
+    width: "resolve"
+
+  $("#workflow_condition_function").select2
+    maximumSelectionSize: 1
+    tags: condition_functions
+    formatResult: format_function
+    formatSelection: format_function
+    escapeMarkup: (m) ->
+      m
+    width: "resolve"
+
+  $("#workflow_action_function").select2
+    maximumSelectionSize: 1
+    tags: action_functions
+    formatResult: format_function
+    formatSelection: format_function
+    escapeMarkup: (m) ->
+      m
+    width: "resolve"
+
+$(document).on('page:load', ready);
+$(document).ready ready
+
+populateSelects = ->
+  $.ajax
+    dataType: "json"
+    type: "GET"
+    url: "/models/attributes"
+    data:
+      model_name: $("#workflow_model_otype").val()
+    success: (data) ->
+      select2_ary = [];
+
+      select2_ary.push({
+        text: 'Subject',
+        children: []
+      });
+
+      $.each data, (index, name) ->
+        select2_ary[0]["children"].push({
+            id: name,
+            text: name
+        })
+
+      $("#workflow_trigger_subject").select2
+        maximumSelectionSize: 1
+        tags: select2_ary
+        formatResult: format_subject
+        formatSelection: format_subject
+        escapeMarkup: (m) ->
+          m
+        width: "resolve"
+
+      $("#workflow_condition_subject").select2
+        maximumSelectionSize: 1
+        tags: select2_ary
+        formatResult: format_subject
+        formatSelection: format_subject
+        escapeMarkup: (m) ->
+          m
+        width: "resolve"
+
+      $("#workflow_action_subject").select2
+        maximumSelectionSize: 1
+        tags: select2_ary
+        formatResult: format_subject
+        formatSelection: format_subject
+        escapeMarkup: (m) ->
+          m
+        width: "resolve"
+
+format_subject = (input) ->
+  console.log($(input))
+  # return input.text  unless input.id # optgroup
+  "<img class='icon' src='<%= asset_path 'target-keywords-icn.png' %>' />" + " " + input.text
+
+format_function = (input) ->
+  console.log($(input))
+  # return input.text  unless input.id # optgroup
+  "<img class='icon' src='<%= asset_path 'function-icn.png' %>' />" + " " + input.text
+
+format_arg = (input) ->
+  console.log($(input))
+  # return input.text  unless input.id # optgroup
+  "<img class='icon' src='<%= asset_path 'note-icn.png' %>' />" + " " + input.text
+
+format_model = (input) ->
+  console.log($(input))
+  # return input.text  unless input.id # optgroup
+  "<img class='icon' src='<%= asset_path 'table-icn.png' %>' />" + " " + input.text

@@ -104,6 +104,14 @@ class ModelsController < ApplicationController
     end
   end
 
+  def attributes
+    @attributes = Model.data_keys(otype: params[:model_name], user_id: current_user.id) << "state"
+
+    respond_to do |format|
+      format.json { render json: @attributes.to_json }
+    end
+  end
+
 
   private
 

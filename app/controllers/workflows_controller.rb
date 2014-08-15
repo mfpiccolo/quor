@@ -33,7 +33,11 @@ class WorkflowsController < ApplicationController
   private
 
   def workflow_params
-    params.require(:workflow).permit(:user_id, :model_otype, :trigger_text, :condition_text, :action_text)
+    params.require(:workflow).permit(
+      :user_id, :model_otype, :trigger_subject, :trigger_function, :trigger_arg,
+      :condition_subject, :condition_function, :condition_arg, :action_subject,
+      :action_function, :action_arg, :name
+    )
   end
 
   def find_workflow
