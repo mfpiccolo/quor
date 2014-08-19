@@ -8,6 +8,8 @@ ready = ->
     formatSelection: format_model
     escapeMarkup: (m) ->
       m
+    formatSelectionCssClass: (data, container) ->
+      "silver-flat-button"
     width: "resolve"
 
   if $("#workflow_model_otype").val().length
@@ -27,6 +29,8 @@ ready = ->
     formatSelection: format_function
     escapeMarkup: (m) ->
       m
+    formatSelectionCssClass: (data, container) ->
+      "silver-flat-button"
     width: "resolve"
 
   $("#workflow_condition_function").select2
@@ -36,6 +40,8 @@ ready = ->
     formatSelection: format_function
     escapeMarkup: (m) ->
       m
+    formatSelectionCssClass: (data, container) ->
+      "silver-flat-button"
     width: "resolve"
 
   $("#workflow_action_function").select2
@@ -45,6 +51,8 @@ ready = ->
     formatSelection: format_function
     escapeMarkup: (m) ->
       m
+    formatSelectionCssClass: (data, container) ->
+      "silver-flat-button"
     width: "resolve"
 
 $(document).on('page:load', ready);
@@ -78,6 +86,8 @@ populateSelects = ->
         formatSelection: format_subject
         escapeMarkup: (m) ->
           m
+        formatSelectionCssClass: (data, container) ->
+          "silver-flat-button"
         width: "resolve"
 
       $("#workflow_condition_subject").select2
@@ -87,6 +97,8 @@ populateSelects = ->
         formatSelection: format_subject
         escapeMarkup: (m) ->
           m
+        formatSelectionCssClass: (data, container) ->
+          "silver-flat-button"
         width: "resolve"
 
       $("#workflow_action_subject").select2
@@ -96,6 +108,8 @@ populateSelects = ->
         formatSelection: format_subject
         escapeMarkup: (m) ->
           m
+        formatSelectionCssClass: (data, container) ->
+          "silver-flat-button"
         width: "resolve"
 
 format_subject = (input) ->

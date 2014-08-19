@@ -15,13 +15,10 @@
 //= require best_in_place
 //= require jquery_ujs
 //= require foundation
-//= require turbolinks
 //= require jquery.infinitescroll
 //= require select2
-//= require_tree .
 
 ready = function() {
-  jQuery('input[type=file]').customFile();
   jQuery(function(){ $(document).foundation(); });
 };
 

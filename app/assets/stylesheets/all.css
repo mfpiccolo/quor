@@ -92,7 +92,7 @@ a:hover,.side-nav li a:not(.button):hover, .side-nav li a:not(.button):focus {
 }
 
 .logo-bg {
-    background-color: #f16c65;
+    background-color: #315B7E;
     min-height: 70px;
     padding-top: 10px;
 }
@@ -748,108 +748,6 @@ input[type=checkbox] {
     padding-left: 10px;
 }
 
-/* Custom file upload  */
-
-@import url("http://fonts.googleapis.com/css?family=Lato");
-
-$background: #e74c3c;
-$file-upload-color: #c0392b;
-$file-upload-size: 300px;
-
-* {
-    margin: 0;
-    padding: 0;
-    @include box-sizing(border-box);
-}
-body {
-    font-family: Lato, Arial;
-    color: #fff;
-    padding: 55px 25px;
-    background-color: $background;
-}
-h1 {
-    font-weight: normal;
-    font-size: 40px;
-    font-weight: normal;
-    text-transform: uppercase;
-    span {
-        font-size: 13px;
-        display: block;
-        padding-left: 4px;
-    }
-}
-p {
-  margin-top: 200px;
-  a {
-    text-transform: uppercase;
-    text-decoration: none;
-    display: inline-block;
-    color: #fff;
-    padding: 5px 10px;
-    margin: 0 5px;
-    background-color: darken($file-upload-color, 2);
-    @include transition(all 0.2s ease-in);
-    &:hover {
-      background-color: darken($file-upload-color, 5);
-    }
-  }
-}
-.custom-file-upload-hidden {
-    display: none;
-    visibility: hidden;
-    position: absolute;
-    left: -9999px;
-}
-.custom-file-upload {
-    display: block;
-    width: auto;
-    font-size: 16px;
-    margin-top: 30px;
-    //border: 1px solid #ccc;
-    label {
-        display: block;
-        margin-bottom: 5px;
-    }
-}
-
-.file-upload-wrapper {
-    position: relative;
-    margin-bottom: 5px;
-    //border: 1px solid #ccc;
-}
-.file-upload-input {
-    width: $file-upload-size;
-    color: #fff;
-    font-size: 16px;
-    padding: 11px 17px;
-    border: none;
-    background-color: $file-upload-color;
-    @include transition(all 0.2s ease-in);
-    float: left; /* IE 9 Fix */
-    &:hover, &:focus {
-        background-color: darken($file-upload-color, 5);
-        outline: none;
-    }
-}
-.file-upload-button {
-    cursor: pointer;
-    display: inline-block;
-    color: #fff;
-    font-size: 16px;
-    text-transform: uppercase;
-    padding: 11px 20px;
-    border: none;
-    margin-left: -1px;
-    background-color: darken($file-upload-color, 10);
-    float: left; /* IE 9 Fix */
-    @include transition(all 0.2s ease-in);
-    &:hover {
-        background-color: darken($file-upload-color, 20);
-    }
-}
-
-/* Custom file upload end */
-
 /* Table scroll */
 
 #table-wrapper {
@@ -887,4 +785,32 @@ p {
 
 .right-off-row {
   margin-left: 0 !important;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.silver-flat-button {
+/*  position: relative;
+  vertical-align: top;
+  width: 100%;
+  height: 60px;
+  padding: 0;
+  font-size: 22px;
+  color:white;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);*/
+  background: #D8EEFE !important;
+  border: 0 !important;
+  border-bottom: 2px solid #acb2b7;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 -2px #acb2b7;
+  box-shadow: inset 0 -2px #acb2b7;
+}
+.silver-flat-button:active {
+  top: 1px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }

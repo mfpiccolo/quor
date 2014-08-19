@@ -120,9 +120,9 @@ class Model < Pliable::Ply
   # Returns an array of all the methods users cannot name attributes or public_send the model
   def bad_attribute_names
     bad_attr_names = attributes.keys.map(&:to_sym)
-    bad_attr_names += ActiveRecord::Base.public_instance_methods.collect { |x| x.to_sym }
-    bad_attr_names += ActiveRecord::Base.protected_instance_methods.collect { |x| x.to_sym }
-    bad_attr_names += ActiveRecord::Base.private_instance_methods.collect { |x| x.to_sym }
+    bad_attr_names += ActiveRecord::Base.public_instance_methods.map { |x| x.to_sym }
+    bad_attr_names += ActiveRecord::Base.protected_instance_methods.map { |x| x.to_sym }
+    bad_attr_names += ActiveRecord::Base.private_instance_methods.map { |x| x.to_sym }
     bad_attr_names -= [:id]
     bad_attr_names
   end

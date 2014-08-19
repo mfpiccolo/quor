@@ -4,9 +4,8 @@
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <title>Quor</title>
   <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "application", params[:controller] %>
   <%= csrf_meta_tags %>
-  <%= yield(:head) %>
 </head>
 <body data-ember-extension="1">
     <div class="row full-width wrapper">

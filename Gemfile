@@ -22,7 +22,6 @@ gem 'mini_magick', '~> 3.8.0'
 
 gem 'simple_form', '~> 3.0.0'
 gem 'money-rails'
-gem 'turbolinks'
 gem 'kaminari', '~> 0.16.1'
 
 gem 'devise', "~> 3.2.4"
