@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="large-12 medium-12 small-12 columns">
+    <h2>Email Templates</h2>
+
+    <div class="row">
+      <div class="large-12 medium-12 small-12 columns">
+        <%= link_to "Create New Template", new_email_template_path %>
+      </div>
+    </div>
+
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table class="table">
+          <tr>
+          </tr>
+          <% @email_templates.each do |e| %>
+            <tr>
+              <td><%= link_to e.id, email_template_path(e) %></td>
+              <td><%= e.subject %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

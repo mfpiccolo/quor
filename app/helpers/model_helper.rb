@@ -9,7 +9,7 @@ module ModelHelper
     related_model = current_user.models
                                 .where(otype: ActiveSupport::Inflector.humanize(key.to_sym))
                                 .where("(data->>'external_id')::integer = #{id.to_i}").first
-    model_path(related_model)
+    model_path(related_model) if related_model.present?
   end
 
 end

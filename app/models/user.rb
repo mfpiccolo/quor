@@ -8,5 +8,6 @@ class User < ActiveRecord::Base
   has_many :filters
   has_many :model_states
   has_many :workflows
+  has_many :email_templates
 end
 

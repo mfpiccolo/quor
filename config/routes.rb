@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :workflows
 
-  resources :email_template_details
+  resources :email_templates
 
   resources :model_states, only: [] do
     collection { post :transition }

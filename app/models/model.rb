@@ -134,7 +134,7 @@ class Model < Pliable::Ply
   private
 
   def check_state
-    self.state = model_state.name if model_state.present?
+    self.state = model_state.try(:name) || "draft"
   end
 
   def set_ply_attributes
