@@ -30,8 +30,19 @@ class Workflow < ActiveRecord::Base
   end
 
   def action
+    split_subject = action_subject.split(",")
     if action_function == "change_to"
-      -> (m) { m.public_send((action_subject + "=").to_sym, action_arg) }
+      if split_subject.size > 1
+        -> (m) do
+          m.public_send(split_subject.first.to_sym)
+            .each do |o|
+              o.public_send((split_subject.last + "=").to_sym, action_arg)
+              o.save
+            end
+        end
+      else
+        -> (m) { m.public_send((action_subject + "=").to_sym, action_arg) }
+      end
     end
   end
 

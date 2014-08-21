@@ -41,6 +41,16 @@ class Model < Pliable::Ply
     end
   end
 
+  def self.parent_scopes(otype: nil, user_id: nil)
+    parent_id_keys = Model.data_keys(user_id: user_id, otype: otype).select {|k| k.match(/_id$/) unless k == "external_id" }
+    parent_id_keys.map {|k| ActiveSupport::Inflector.humanize(k).pluralize.downcase.to_sym }
+  end
+
+  def self.child_scopes(otype: nil, user_id: nil)
+    ActiveRecord::Base.connection.execute("SELECT Distinct otype FROM plies WHERE user_id = #{user_id} AND ((data->>'#{otype.downcase}_id') IS NOT NULL)")
+      .values.flatten.map {|m| ActiveSupport::Inflector.humanize(m).pluralize.downcase.to_sym}
+  end
+
   def to_param
     id.to_s
   end

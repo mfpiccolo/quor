@@ -105,10 +105,18 @@ class ModelsController < ApplicationController
   end
 
   def attributes
-    @attributes = Model.data_keys(otype: params[:model_name], user_id: current_user.id) << "state"
+    attributes = Model.data_keys(otype: params[:model_name], user_id: current_user.id) << "state"
+    parent_scopes = Model.parent_scopes(otype: params[:model_name], user_id: current_user.id)
+    child_scopes =  Model.child_scopes(otype: params[:model_name], user_id: current_user.id)
+
+    model_data = {
+      "attributes" => attributes,
+      "parent_scopes" => parent_scopes,
+      "child_scopes" => child_scopes
+    }
 
     respond_to do |format|
-      format.json { render json: @attributes.to_json }
+      format.json { render json: model_data.to_json }
     end
   end
 

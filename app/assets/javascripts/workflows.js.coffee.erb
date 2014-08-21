@@ -4,6 +4,7 @@ ready = ->
   $("#workflow_model_otype").select2
     tags: model_types
     maximumSelectionSize: 1
+    multiple: true
     formatResult: format_model
     formatSelection: format_model
     escapeMarkup: (m) ->
@@ -20,7 +21,7 @@ ready = ->
 
   trigger_functions   = ["changes_to"]
   condition_functions = ["=", "!=", "<=", ">=", "<", ">"]
-  action_functions    = ["change_to"]
+  action_functions    = ["change_to", "email"]
 
   $("#workflow_trigger_function").select2
     maximumSelectionSize: 1
@@ -69,19 +70,54 @@ populateSelects = ->
       select2_ary = [];
 
       select2_ary.push({
-        text: 'Subject',
+        text: 'Attributes',
         children: []
       });
 
-      $.each data, (index, name) ->
+      $.each data["attributes"], (index, name) ->
         select2_ary[0]["children"].push({
             id: name,
             text: name
         })
 
+      # Possibly add these function to be used before associations
+      # select2_ary.push({
+      #   text: 'Association Operations',
+      #   children: [
+      #     {
+      #       id: "all",
+      #       text: "all"
+      #     }
+      #   ]
+      # });
+
+      if data["parent_scopes"].length
+        select2_ary.push({
+          text: 'Parents',
+          children: []
+        });
+
+        $.each data["parent_scopes"], (index, name) ->
+          select2_ary[select2_ary.length - 1]["children"].push({
+              id: name,
+              text: name
+          })
+
+      if data["child_scopes"].length
+        select2_ary.push({
+          text: 'Children',
+          children: []
+        });
+
+        $.each data["child_scopes"], (index, name) ->
+          select2_ary[select2_ary.length - 1]["children"].push({
+              id: name,
+              text: name
+          })
+
       $("#workflow_trigger_subject").select2
-        maximumSelectionSize: 1
         tags: select2_ary
+        maximumSelectionSize: 2
         formatResult: format_subject
         formatSelection: format_subject
         escapeMarkup: (m) ->
@@ -91,8 +127,8 @@ populateSelects = ->
         width: "resolve"
 
       $("#workflow_condition_subject").select2
-        maximumSelectionSize: 1
         tags: select2_ary
+        maximumSelectionSize: 2
         formatResult: format_subject
         formatSelection: format_subject
         escapeMarkup: (m) ->
@@ -102,8 +138,8 @@ populateSelects = ->
         width: "resolve"
 
       $("#workflow_action_subject").select2
-        maximumSelectionSize: 1
         tags: select2_ary
+        maximumSelectionSize: 2
         formatResult: format_subject
         formatSelection: format_subject
         escapeMarkup: (m) ->
