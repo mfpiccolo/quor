@@ -45,7 +45,7 @@ class Searcher
 
     if string.size == ordered_ops_array.first.size && string.include?("(") && string.include?(")")
       sql_array << "("
-       t(string[1..-2], parens: true)
+      build_sql_array(string[1..-2], parens: true)
     elsif ordered_ops_array.length == 1
       sql_array << string
       if @count.present?
