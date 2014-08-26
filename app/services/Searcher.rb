@@ -1,5 +1,9 @@
 class Searcher
 
+  # TODO rely on AREL or sequel gem
+  # get the tree structure and then parse the tree and constuct the sql to build
+  # the sql using the json attrs
+
   Operators = ["<=", ">=", "<", ">", "=", "!=", "(", ")"]
 
   attr_reader :user, :type, :query_string, :query_array, :scope, :sql_string, :sql_array, :final_scope
@@ -41,7 +45,7 @@ class Searcher
 
     if string.size == ordered_ops_array.first.size && string.include?("(") && string.include?(")")
       sql_array << "("
-      build_sql_array(string[1..-2], parens: true)
+       t(string[1..-2], parens: true)
     elsif ordered_ops_array.length == 1
       sql_array << string
       if @count.present?
@@ -55,27 +59,31 @@ class Searcher
 
   def build_sql_string
     @final_sql_array = sql_array.map(&:strip).map do |string|
-      if string.include?(":")
-        q = string.split(":")
-        "(similarity((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > .5 OR " +
-        "(data->>'#{q[0].strip}')::text ILIKE '%#{q[1].strip}%')"
-        # "difference((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > 3"
-        # "levenshtein((data->>'#{q[0].strip}')::text, '#{q[1].strip}') > 22"
-        # "(((to_tsvector('simple', coalesce(data ->> '#{q[0].strip}', ''))) @@ (to_tsquery('simple', ''' ' || '#{q[1].strip}' || ' '''))))"
-      elsif [">=", "<=", ">", "<"].any? { |join| string.include? join }
-        q = string.gsub(/\s+/m, ' ').strip.split(" ")
-        "(data->>'#{q[0].strip}')::int #{q[1]} #{q[2]}"
-      elsif ["=", "!="].any? {|equal_opp| string.include?(equal_opp) }
-        q = string.gsub(/\s+/m, ' ').strip.split(" ")
-        "(data->>'#{q[0].strip}')::text #{q[1]} '#{q[2]}'"
-      elsif string == "||"
-        " OR "
-      elsif string == "&&"
-        " AND "
-      else
-        string
-      end
+      SqlString.call(string)
     end
   end
 
+  def sanitize(string)
+    Model.sanitize(string)
+  end
+
+  def raw(string)
+    string[1..(string.length - 2)]
+  end
+
+  def opp!(opp)
+    unless ["'='", "'!='", "'<'", "'>'", "'<='", "'>='", "'IN'"].any? { |o| o == opp }
+      raise "YOU ARE TRYING TO SQL INJECT!"
+    end
+    raw(opp)
+  end
+
 end
+
+
+
+
+
+
+
+
