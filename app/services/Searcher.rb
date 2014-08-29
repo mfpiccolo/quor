@@ -63,21 +63,6 @@ class Searcher
     end
   end
 
-  def sanitize(string)
-    Model.sanitize(string)
-  end
-
-  def raw(string)
-    string[1..(string.length - 2)]
-  end
-
-  def opp!(opp)
-    unless ["'='", "'!='", "'<'", "'>'", "'<='", "'>='", "'IN'"].any? { |o| o == opp }
-      raise "YOU ARE TRYING TO SQL INJECT!"
-    end
-    raw(opp)
-  end
-
 end
 
 

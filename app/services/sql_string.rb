@@ -1,9 +1,4 @@
 class SqlString
-  OperatorMapping = {
-    "<=" => :compare_query, ">=" => :compare_query, "<" => :compare_query,
-    ">" => :compare_query, "=" => :equal_query, "!=" => :equal_query,
-    "||" => :or_join, "&&" => :and_join, ":" => :like_query
-  }
 
   attr_reader :sql_string
 
@@ -18,8 +13,23 @@ class SqlString
   def call
     operator = sql_string.scan(matchers)
     if operator.size == 1
-      send OperatorMapping[operator.first]
+      send operator_mapping[operator.first]
     end
+  end
+
+
+  private
+
+  def operator_mapping
+    {
+      "<=" => :compare_query, ">=" => :compare_query, "<" => :compare_query,
+      ">" => :compare_query, "=" => :equal_query, "!=" => :equal_query,
+      "||" => :or_join, "&&" => :and_join, ":" => :like_query
+    }
+  end
+
+  def matchers
+    Regexp.union(/<=/, />=/, /</, />/, /=/, /!=/, /\|\|/, /&&/, /:/)
   end
 
   def like_query
@@ -45,6 +55,7 @@ class SqlString
     jattr = sanitize(q[0].strip)
     opp = sanitize(q[1].strip)
     arg = sanitize(q[2].strip)
+
     "(data->>#{jattr})::text #{opp!(opp)} #{arg}"
   end
 
@@ -54,13 +65,6 @@ class SqlString
 
   def and_join
     " AND "
-  end
-
-
-  private
-
-  def matchers
-    Regexp.union(/<=/, />=/, /</, />/, /=/, /!=/, /\|\|/, /&&/, /:/)
   end
 
   def sanitize(string)
