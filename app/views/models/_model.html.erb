@@ -15,7 +15,7 @@
             <% end %>
           <% end %>
         <% else %>
-          <li><a href="#">Add a state</a></li>
+          <li><%= link_to("Add a State", new_model_state_path(model_name: m.otype)) %></li>
         <% end %>
       </ul>
     </td>

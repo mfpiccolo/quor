@@ -17,9 +17,12 @@
 //= require foundation
 //= require jquery.infinitescroll
 //= require select2
+//= require modernizr
 
 ready = function() {
-  jQuery(function(){ $(document).foundation(); });
+  jQuery(function(){
+    $(document).foundation();
+  });
 };
 
 $(document).ready(ready);

@@ -1,0 +1,23 @@
+<%= simple_form_for @model_state, defaults: { input_html: { class: "flat-input" } } do |f| %>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= f.input :name %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= f.input :otype %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= f.input :transition_to %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= f.input :transition_from %>
+    </div>
+  </div>
+  <%= f.submit nil , class: "button" %>
+<% end %>

@@ -14,4 +14,23 @@ class ModelStatesController < ApplicationController
     redirect_to :back
   end
 
+  def new
+    @model_state = current_user.model_states.new(otype: params[:model_name])
+  end
+
+  def create
+    if current_user.model_states.create!(model_state_params)
+      redirect_to models_path(otype: model_state_params[:otype])
+    else
+      render :new
+    end
+  end
+
+
+  private
+
+  def model_state_params
+    params.require(:model_state).permit(:name, :otype, :transition_to, :transition_from)
+  end
+
 end

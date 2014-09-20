@@ -1,0 +1,50 @@
+<% headers.each_with_index do |h, i| %>
+  <fieldset>
+    <% name_suggestion = suggest_name(h) %>
+    <% value_suggestion = suggest_value(@most_complete_row[i]) %>
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="large-6 columns">
+          <%= label_tag "Header from CSV" %>
+          <%= text_field_tag h, h, disabled: true %>
+        </div>
+        <div class="large-6 columns">
+          <%= label_tag "header_mappings[#{h}]", "Attribute Name for #{@model_name}" %>
+          <div class="row collapse prefix-radius">
+            <div class="small-1 columns">
+              <span data-tooltip aria-haspopup="true" class="prefix has-tip" title="<%= name_suggestion.message %>">
+                <% if name_suggestion.result.present? %>
+                  <%= fa_icon("question", text: "", class: "fa-question fa-2x") %>
+                <% end %>
+              </span>
+            </div>
+            <div class="small-11 columns">
+              <%= text_field_tag "header_mappings[#{h}]", name_suggestion.result || h %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="large-12 columns">
+        <div class="large-6 columns">
+          <%= label_tag "Value From Sample Row" %>
+          <%= text_field_tag @most_complete_row[i], @most_complete_row[i], disabled: true %>
+        </div>
+        <div class="large-6 columns">
+          <%= label_tag "data_mappings[#{h}]", "Attribute Value for #{@model_name}" %>
+          <div class="row collapse prefix-radius">
+            <div class="small-1 columns">
+              <span data-tooltip aria-haspopup="true" class="prefix has-tip" title="<%= value_suggestion.message %>">
+                <% if value_suggestion.message.present? %>
+                  <%= fa_icon("question", text: "", class: "fa-question fa-2x") %>
+                <% end %>
+              </span>
+            </div>
+            <div class="small-11 columns">
+              <%= text_field_tag "data_mappings[#{h}]", value_suggestion.result || h %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

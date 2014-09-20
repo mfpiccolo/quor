@@ -12,9 +12,7 @@ class SqlString
 
   def call
     operator = sql_string.scan(matchers)
-    if operator.size == 1
-      send operator_mapping[operator.first]
-    end
+    send operator_mapping[operator.first]
   end
 
 
@@ -45,9 +43,9 @@ class SqlString
     q = sql_string.gsub(/\s+/m, ' ').strip.split(" ")
     jattr = sanitize(q[0].strip)
     opp = sanitize(q[1].strip)
-    arg = sanitize(q[2].strip)
+    arg = sanitize(q[2..(q.length - 1)].join(" ").strip)
 
-    "(data->>#{jattr})::int #{opp!(opp)} #{arg}"
+    "(data->>#{jattr})::#{data_type(jattr)} #{opp!(opp)} #{arg}"
   end
 
   def equal_query
@@ -55,6 +53,8 @@ class SqlString
     jattr = sanitize(q[0].strip)
     opp = sanitize(q[1].strip)
     arg = sanitize(q[2].strip)
+
+    # Arel.sql("(data->>#{jattr})::text").eq(q[2].strip).to_sql
 
     "(data->>#{jattr})::text #{opp!(opp)} #{arg}"
   end
@@ -76,10 +76,20 @@ class SqlString
   end
 
   def opp!(opp)
+    # TODO use include?
     unless ["'='", "'!='", "'<'", "'>'", "'<='", "'>='", "'IN'"].any? { |o| o == opp }
       raise "YOU ARE TRYING TO SQL INJECT!"
     end
     raw(opp)
   end
 
+  def data_type(jattr)
+    if jattr.match(/_at'$/).present?
+      "timestamp"
+    elsif jattr.match(/_on'$/).present?
+      "date"
+    else
+      "integer"
+    end
+  end
 end

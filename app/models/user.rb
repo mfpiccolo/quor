@@ -9,5 +9,6 @@ class User < ActiveRecord::Base
   has_many :model_states
   has_many :workflows
   has_many :email_templates
+  has_many :model_mappings
 end
 

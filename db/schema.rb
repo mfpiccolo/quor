@@ -11,31 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140811164118) do
+ActiveRecord::Schema.define(version: 20140901000427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
-
-  create_table "email_template_details", force: true do |t|
-    t.string   "logo_file"
-    t.string   "banner_file"
-    t.text     "subject"
-    t.string   "header1_large"
-    t.text     "header1_small"
-    t.text     "banner_description"
-    t.string   "header2_large"
-    t.string   "header2_small"
-    t.text     "body"
-    t.string   "call_to_action"
-    t.string   "facebook_url"
-    t.string   "twitter_url"
-    t.string   "google_url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "email_templates", force: true do |t|
     t.integer  "user_id"
@@ -58,9 +40,17 @@ ActiveRecord::Schema.define(version: 20140811164118) do
 
   create_table "filters", force: true do |t|
     t.integer "user_id"
-    t.string  "model_type", limit: 255
+    t.string  "model_type"
     t.text    "query"
-    t.string  "name",       limit: 255
+    t.string  "name"
+  end
+
+  create_table "model_mappings", force: true do |t|
+    t.integer  "user_id"
+    t.string   "otype"
+    t.json     "type_mapping"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "model_states", force: true do |t|
@@ -75,39 +65,39 @@ ActiveRecord::Schema.define(version: 20140811164118) do
 
   create_table "plies", force: true do |t|
     t.integer  "user_id"
-    t.string   "oid",                  limit: 255
-    t.string   "otype",                limit: 255
-    t.json     "data",                             default: {}
+    t.string   "oid"
+    t.string   "otype"
+    t.json     "data",                 default: {}
     t.hstore   "ohash"
     t.datetime "last_modified"
     t.datetime "last_checked"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.json     "last_version_changes",             default: {}
+    t.json     "last_version_changes", default: {}
     t.integer  "model_state_id"
     t.string   "state"
   end
 
   create_table "ply_relations", force: true do |t|
     t.integer  "parent_id"
-    t.string   "parent_type", limit: 255
+    t.string   "parent_type"
     t.integer  "child_id"
-    t.string   "child_type",  limit: 255
+    t.string   "child_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

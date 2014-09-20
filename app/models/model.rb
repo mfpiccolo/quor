@@ -129,6 +129,7 @@ class Model < Pliable::Ply
 
   # Returns an array of all the methods users cannot name attributes or public_send the model
   def bad_attribute_names
+    # TODO Dig deeper and ensure this keeps out evil people
     bad_attr_names = attributes.keys.map(&:to_sym)
     bad_attr_names += ActiveRecord::Base.public_instance_methods.map { |x| x.to_sym }
     bad_attr_names += ActiveRecord::Base.protected_instance_methods.map { |x| x.to_sym }
@@ -144,6 +145,9 @@ class Model < Pliable::Ply
   private
 
   def check_state
+    unless model_state.present?
+      create_model_state
+    end
     self.state = model_state.try(:name) || "draft"
   end
 

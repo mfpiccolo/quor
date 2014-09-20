@@ -1,0 +1,18 @@
+<h1>Mappings</h1>
+
+<div id="table-wrapper">
+  <div id="table-scroll">
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      <% @mappings.each do |m| %>
+        <tr>
+          <td><%= link_to m.id, m %></td>
+          <td><%= m.otype %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

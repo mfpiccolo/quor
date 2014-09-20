@@ -4,7 +4,6 @@ Rails.application.routes.draw do
 
   resources :models do
     collection { get :model_types }
-    collection { post :import }
     collection { get :search }
     collection { get :attributes }
   end
@@ -13,9 +12,14 @@ Rails.application.routes.draw do
 
   resources :email_templates
 
-  resources :model_states, only: [] do
+  resources :imports, only: [:create]
+  post :import_mappings, to: "imports#new"
+
+  resources :model_states, only: [:new, :create] do
     collection { post :transition }
   end
+
+  resources :model_mappings, only: [:index, :show]
 
   resources :users, only: [:edit, :update]
 end

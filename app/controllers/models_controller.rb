@@ -59,15 +59,6 @@ class ModelsController < ApplicationController
   def destroy
   end
 
-  def import
-    CsvImporter.import(
-      user_id: current_user.id,
-      model_name: params[:model_name],
-      csv_file: params[:file]
-    )
-    redirect_to model_types_models_path
-  end
-
   def search
     @model_otype = params[:otype]
     @current_model_names = current_user.models.model_names

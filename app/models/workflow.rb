@@ -30,6 +30,7 @@ class Workflow < ActiveRecord::Base
   end
 
   def action
+    # TODO sanitize against bad input
     split_subject = action_subject.split(",")
     if action_function == "change_to"
       if split_subject.size > 1

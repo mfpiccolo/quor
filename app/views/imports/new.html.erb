@@ -1,0 +1,23 @@
+<h1>Setup Mappings</h1>
+
+<%= form_tag({controller: :imports, action: :create, method: :post}, {multipart: true}) do |f| %>
+  <%= hidden_field_tag :file_path, @file_path %>
+  <%= hidden_field_tag :model_name, @model_name %>
+
+  <div id="mappings">
+    <%= render "mappings", headers: @headers if @headers.present? %>
+  </div>
+
+  <div class="small-12 columns">
+    <div class="row collapse prefix-radius">
+      <div class="small-1 columns">
+        <span data-tooltip aria-haspopup="true" class="prefix has-tip tip-top" title="You cannot submit this form until you have addressed the issues with your data.">
+          <%= fa_icon("question", text: "", class: "fa-question fa-2x") %>
+        </span>
+      </div>
+      <div class="small-11 columns">
+        <%= submit_tag nil , class: "button" %>
+      </div>
+    </div>
+  </div>
+<% end %>
